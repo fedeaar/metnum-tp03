@@ -1,0 +1,46 @@
+\input{files/header.tex}
+
+
+\begin{document} 
+
+% caratula
+\input{files/src/caratula.tex}
+
+% palabras clave y resumen
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\section*{resumen}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+\input{files/src/resumen.tex}
+
+% contenido
+% \newpage
+\vspace{2em}
+\tableofcontents
+\newpage
+
+% potencia
+\section{Introducción}
+\input{files/src/introduccion.tex}
+\newpage
+
+% desarrollo
+\section{Desarrollo}
+\input{files/src/desarrollo.tex}
+\newpage
+
+% conclusiones
+\section{Conclusiones}
+\input{files/src/conclusiones.tex}
+\newpage
+
+% apendice
+\section{Apéndice}
+\input{files/src/apendice.tex}
+
+%\newpage
+% bibliografia - requiere que haya citas
+%\bibliographystyle{plain}
+%\bibliography{files/citations.bib}
+%\newpage
+
+\end{document}

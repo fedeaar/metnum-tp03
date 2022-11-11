@@ -1,0 +1,31 @@
+vector<double> gauss_seidel(SparseMatrix<double>& A, vector<double>& b, double tol, int iter){
+   SparseMatrix<double> T = inv(triangInf(A));
+   vector<double> c = T @ b;
+   SparseMatrix<double> R = triangSup(A) - diag(A);
+ 
+   vector<double> x = randomVector(A.size());
+   bool b = true;
+   for(int i = 0; i < iter && b; ++i){
+       vector<double> y = T @ (R @ x) + c;
+       if(abs(x - y) < tol) b = false;
+       x = y;
+   }
+ 
+   return x;
+}
+ 
+vector<double> jacobi(SparseMatrix<double>& A, vector<double>& b, double tol, int iter){
+   SparseMatrix<double> T = inv(diag(A));
+   vector<double> c = T @ b;
+   SparseMatrix<double> R =  -(triangSup(A) + triangInf(A))
+ 
+   vector<double> x = randomVector(A.size());
+   bool b = true;
+   for(int i = 0; i < iter && b; ++i){
+       vector<double> y = T @ (R @ x) + c;
+       if(abs(x - y) < tol) b = false;
+       x = y;
+   }
+ 
+   return x;
+}

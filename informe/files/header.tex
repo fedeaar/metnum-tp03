@@ -1,0 +1,53 @@
+\documentclass{./packages/homework}
+\usepackage{./packages/caratula}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+
+\graphicspath{./files/src/media/}
+\renewcommand{\contentsname}{contenidos}
+\renewcommand{\refname}{Referencias}
+\renewcommand\qedsymbol{$\blacksquare$}
+\renewcommand{\lstlistingname}{Algoritmo}% Listing -> Algorithm
+\renewcommand{\figurename}{Figura}% Listing -> Algorithm
+\renewcommand\thesubfigure{\roman{subfigure}}
+\captionsetup[subfloat]{labelformat=empty}
+
+\lstdefinelanguage{pseudo}{
+  morekeywords={
+    pre,
+    post,
+    if,
+    while,
+    for,
+    in,
+    out,
+    proc,
+    inout,
+    do,
+    and,
+    not,
+    return,
+    break,
+    raise
+  },
+  sensitive=false, % keywords are not case-sensitive
+  morecomment=[l]{//}, % l is for line comment
+  morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+  keywordstyle=\color{black}\textbf,
+  commentstyle=\color{gray},
+  morestring=[b]", % defines that strings are enclosed in double quotes
+  inputencoding=utf8,
+  extendedchars=true,
+  literate=
+    {λ}{$\lambda$}1
+    {α}{$\alpha$}1
+    {ε}{$\epsilon$}1
+    {Λ}{$\Lambda$}1
+    {>=}{$\geq$}2
+    {<=}{$\leq$}2
+}
+
+\newcommand{\TODO}[1]{
+  {\noindent \color{red} [#1]}
+}
