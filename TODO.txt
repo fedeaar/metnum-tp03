@@ -1,8 +1,31 @@
 - Usar la libreria "EIGEN" para matrices ralas.
-- Implementar en c++ el metodo de jacobi.
-- Implementar en c++ el metodo de Gauss-Seidel.
-- Graficar la convergencia para los casos de la cátedra
-- Calcular y mostrar el error entre nuestros resultados y los de la cátedra.
-- Implementar eliminacion gaussiana para la nueva representacion de ralas.
-- Hay que reemplazar el codigo del tp1 usando la nueva representacion de ralas, y calcular el tiempo de ejecucion y por otro lado aplicar metodos iterativos para calcular la solucion y comparar la velocidad, de los resultados usando los tests de la catedra.
-- Analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta
+
+BRI	   - Implementar en c++ el metodo de jacobi.
+BRI	   - Implementar en c++ el metodo de Gauss-Seidel.
+FEDE NAT - Implementar eliminación gaussiana.
+(hay que buscar solucion 'ideal')
+
+FEDE - IO
+
+FEDE - Graficar la convergencia para los casos de la cátedra con J y GS
+(iteracion eje x, error eje y)
+	- Calcular y mostrar el error entre nuestros resultados y los de la cátedra.
+	- armarse un script para graficar y evaluar
+	- escribir en latex
+
+NAT - Comparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests
+(barras)
+	- armarse un script de python para evaluar y graficar
+	- escribir en latex
+
+MANU - Analizar como varían los tiempos de ejecución a medida que la densidad de la 
+matriz aumenta: 
+	- red sumidero
+	- uno a todos
+	- nada (?
+	- viborita
+	- todo con todo
+	- ciclica
+	- aleatorios
+
+preguntar cuales son los tests TP1?
