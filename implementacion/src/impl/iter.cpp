@@ -54,41 +54,85 @@ void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::Vector
 
 
 
+// void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b) {
+//     // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+//     //      b.size() == A.cols() == A.rows()
+//     Eigen::SparseMatrix<double, Eigen::RowMajor> B = A;
+
+//     std::vector<int> p_list;
+//     p_list.reserve(A.rows());
+//     int p_pos = 0;
+
+//     for (int i = 0; i < A.rows() - 1; ++i) {
+//         for (Eigen::SparseMatrix<double>::InnerIterator it(A, i); it; ++it) {
+//             // M
+//             int k = it.row();
+//             if (k <= i) {
+//                 continue;
+//             }
+//             p_list[p_pos] = k;
+//             p_pos++;
+//         }
+//         while(p_pos > 0) {
+//             int j = p_list[p_pos - 1];
+//             double mij = A.coeff(j, i) / A.coeff(i, i);
+//             for (Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it(B, i); it; ++it) {
+//                 int k = it.col();
+//                 if (k < i) {
+//                     continue;
+//                 }
+//                 double val = A.coeff(j, k) - A.coeff(i, k) * mij;
+//                 A.coeffRef(j, k) = val;
+//             }
+//             b[j] = b[j] - b[i] * mij;
+//             --p_pos;
+//         }
+//         // B = A;
+//     }
+// }
+
+void printM(Eigen::SparseMatrix<double> &A){
+    for(int i = 0; i < A.rows(); ++i) {
+        for(int j = 0; j < A.cols(); ++j){
+            std::cout << A.coeff(i, j) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b) {
     // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
     //      b.size() == A.cols() == A.rows()
     Eigen::SparseMatrix<double, Eigen::RowMajor> B = A;
 
-    std::vector<int> p_list;
-    p_list.reserve(A.rows());
-    int p_pos = 0;
-
     for (int i = 0; i < A.rows() - 1; ++i) {
-        for (Eigen::SparseMatrix<double>::InnerIterator it(A, i); it; ++it) {
-            // M
-            int k = it.row();
-            if (k <= i) {
-                continue;
-            }
-            p_list[p_pos] = k;
-            p_pos++;
-        }
-        while(p_pos > 0) {
-            int j = p_list[p_pos - 1];
-            double mij = A.coeff(j, i) / A.coeff(i, i);
-            for (Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it(B, i); it; ++it) {
-                int k = it.col();
-                if (k < i) {
-                    continue;
+        Eigen::SparseMatrix<double>::InnerIterator it_col_i(A, i);
+
+        while(it_col_i.row() < i) ++it_col_i; // no hace falta chear out of range porque sabemos que el de la diag existe
+
+        double mii = it_col_i.value();
+        ++it_col_i;
+        for (; it_col_i ; ++it_col_i) {
+            int j = it_col_i.row();
+            double mij = it_col_i.value() / mii;
+            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_i(B, i);  
+            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_j(B, j);
+            while(it_fila_i && it_fila_j){
+                if(it_fila_i.col() > it_fila_j.col()) ++it_fila_j;
+                else if (it_fila_i.col() < it_fila_j.col()) ++it_fila_i;
+                else {
+                    it_fila_j.valueRef() -= it_fila_i.value() * mij;
+                    ++it_fila_j;
+                    ++it_fila_i;
                 }
-                double val = A.coeff(j, k) - A.coeff(i, k) * mij;
-                A.coeffRef(j, k) = val;
+
             }
             b[j] = b[j] - b[i] * mij;
-            --p_pos;
         }
-        // B = A;
+        A = B;
     }
+    printM(A);
+
 }
 
 
