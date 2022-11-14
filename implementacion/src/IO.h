@@ -30,7 +30,7 @@ namespace IO {
 
     /** FILE HANDLING */
 
-    grafo read_grafo(const string &in, size_t start=0);
+    graph read_grafo(const string &in, size_t start=0);
 
     Eigen::SparseMatrix<double> read_matriz(const string &in, size_t start=0);
     Eigen::SparseMatrix<double> read_matriz(ifstream &file);

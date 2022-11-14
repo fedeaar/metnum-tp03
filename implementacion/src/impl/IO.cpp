@@ -99,7 +99,7 @@ pair<size_t, size_t> IO::_shape(ifstream &file) {
 }
 
 
-grafo IO::read_grafo(const string &in, size_t start) {
+graph IO::read_grafo(const string &in, size_t start) {
     ifstream file{in, ios::binary};
     if (!file.is_open()) {
         throw std::invalid_argument("no se pudo leer el archivo: " + in + ".");
@@ -114,7 +114,7 @@ grafo IO::read_grafo(const string &in, size_t start) {
     std::getline(file, _links);
     size_t links = stodcast(_links, "error de formato: linea 2.");
     // init store
-    grafo res(nodos, links);
+    graph res(nodos, links);
     // in coords
     string _i, _j;
     size_t i, j, k = 2;

@@ -33,7 +33,7 @@ protected:
 
 void IterativosTests::pagerank_test(const string &in, const string &out) {
 
-    grafo g = IO::read_grafo(basedir + in);
+    graph g = IO::read_grafo(basedir + in);
     pagerank::IO::out_file expected = pagerank::IO::read_out(basedir + out);
     Eigen::SparseMatrix<double> A = pagerank::make({g, expected.p_val});
     Eigen::VectorXd res = pagerank::solve(A, M);

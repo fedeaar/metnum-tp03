@@ -16,10 +16,10 @@ namespace pagerank {
     namespace IO {
 
         struct in_file {
-            in_file(grafo g, double _val) : p_val(_val), grafo(std::move(g)) {}
+            in_file(graph g, double _val) : p_val(_val), grafo(std::move(g)) {}
 
             double p_val;
-            grafo grafo;
+            graph grafo;
         };
 
         struct out_file {

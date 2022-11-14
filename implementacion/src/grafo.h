@@ -14,15 +14,15 @@ struct coords {
     size_t i;
     size_t j;
 };
-struct grafo {
-    grafo(size_t _n, size_t _l): nodos(_n), links(_l), relaciones() {}
+struct graph {
+    graph(size_t _n, size_t _l): nodos(_n), links(_l), relaciones() {}
 
     size_t nodos;
     size_t links;
     vector<coords> relaciones;
 };
 
-Eigen::SparseMatrix<double> grafo_a_matriz(const grafo &g);
+Eigen::SparseMatrix<double> grafo_a_matriz(const graph &g);
 
 
 #endif //ITER_GRAFO_H
