@@ -5,7 +5,7 @@ import numpy as np
 
 
 # GLOBAL
-EXE_PATH = '../build/tp2'      # si se compilo de otra manera, o con otro nombre, cambiar por la direccion correcta
+EXE_PATH = '../build/tp3'      # si se compilo de otra manera, o con otro nombre, cambiar por la direccion correcta
 WSL = True                     # dejar true solo si se utilizó wsl para compilar el programa, false sino
 
 
@@ -26,11 +26,11 @@ def read_adylist(filename):
     return matriz
 
 
-def write_adylist(filename, matrix):
+def write_adylist(filename, matrix, complete=True):
     
     links = np.where(matrix != 0)
     links = tuple(zip(*links))
-    text  = []
+    text  = [] if not complete else [str(matrix.shape[0]), str(len(links))]
     for coord in links:
         text.append(str(coord[1] + 1) + " " + str(coord[0] + 1))
 
@@ -39,12 +39,7 @@ def write_adylist(filename, matrix):
 
 def read_time(filename):
 
-    with open(filename) as file:
-        data = file.read().splitlines()
-        scale = data[0]
-        time = int(data[1])
-        
-    return scale, time
+    return pd.read_csv(filename);
 
 
 #
@@ -73,19 +68,20 @@ def createCSV(filename, columnas):
 
 
 #
-# IO ./tp2
+# IO ./tp3
 #
 
-def run(filename, niter, tol, 
-        f="matriz", m="base", o="./", p=15, save_as=None, time=False, verbose=False,
+def run(filename, p_val, 
+        m="EG", tol=1e-4, niter=1e5, o="./", p=15, save_as=None, time=False, verbose=False,
         exe_path=EXE_PATH):
 
     call_params = [
         "wsl" if WSL else "",   
         exe_path, 
-        filename, str(niter), str(tol),
-        "-f", f,
+        filename, str(p_val),
         "-m", m,
+        "-tol", str(tol),
+        "-iter", str(niter),
         "-o", o,
         "-p", str(p)
     ]
