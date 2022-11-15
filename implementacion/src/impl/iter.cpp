@@ -100,49 +100,50 @@ EigenVector metnum::jacobi(RowMatrix &A, EigenVector &b, double tol, size_t iter
 
 
 
+void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol) {
+   // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+   //      b.size() == A.cols() == A.rows()
 
-//
-// ELIMINACION GAUSSIANA
-//
-
-void metnum::eliminacion_gaussiana(RowMatrix &A, EigenVector &b) {
-    // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
-    //      b.size() == A.cols() == A.rows()
     int n = A.rows();
+    std::vector<Eigen::SparseVector<double>> B(n);
+    for(int i = 0; i < n; ++i) B[i] = A.row(i);
 
     for (int i = 0; i < n-1; ++i) {
-        double mii = A.coeff(i, i);
+        double mii = B[i].coeff(i);
         for(int j = i+1; j < n; ++j){
-            double mij = A.coeff(j, i) / mii;
-            if(mij == 0) continue;
-            Eigen::SparseVector<double> new_Bj(n);
-            new_Bj.reserve(A.row(j).nonZeros() + A.row(i).nonZeros() - 2);
+            double mij = B[j].coeff(i) / mii;
+            if(abs(mij) < tol) continue;
 
-            RowIterator it_fila_i(A, i);
-            RowIterator it_fila_j(A, j);
+            Eigen::SparseVector<double> new_Bj(n);
+            new_Bj.reserve(fmin(B[j].nonZeros() + B[i].nonZeros() - 1, n));
+
+            Eigen::SparseVector<double>::InnerIterator it_fila_i(B[i]);
+            Eigen::SparseVector<double>::InnerIterator it_fila_j(B[j]);
             ++it_fila_j; // ya que el primer elemento sabemos que se convierte en 0
             ++it_fila_i; // por lo que salteamos el primer elemento
-            while(it_fila_i || it_fila_j){
-                if(it_fila_j && (!it_fila_i || it_fila_j.col() < it_fila_i.col())){
-                    // si it_fila_i > it_fila_j agrega el elem que no va a editar de la fila original
-                    new_Bj.insertBack(it_fila_j.col()) = it_fila_j.value();
+            while(it_fila_i || it_fila_j) {
+                if (!it_fila_i || (it_fila_j && it_fila_j.index() < it_fila_i.index())) {
+                    // si it fila_i > it_fila_j agrega el elem que no va a editar de la fila original
+                    new_Bj.insertBack(it_fila_j.index()) = it_fila_j.value();
                     ++it_fila_j;
                 } else {
-                    double newVal = - it_fila_i.value() * mij;
-                    if(it_fila_j && it_fila_j.col() == it_fila_i.col()) {
+                    // si entramos aca si o si se cumple it_fila_i valido
+                    double newVal = -it_fila_i.value() * mij;
+                    if (it_fila_j && it_fila_j.index() == it_fila_i.index()) {
                         // si existe el elem it_fila_j entonces lo suma ya que sino es 0 y no afecta
                         newVal += it_fila_j.value();
                         ++it_fila_j;
                     }
-                    if(abs(newVal) > 1e-4) new_Bj.insertBack(it_fila_i.col()) = newVal;
+                    if (abs(newVal) > tol) new_Bj.insertBack(it_fila_i.index()) = newVal;
                     ++it_fila_i;
                 }
             }
 
-            A.row(j) = new_Bj;
+            B[j] = new_Bj;
             b[j] = b[j] - b[i] * mij;
         }
     }
+    for(int i = 0; i < n; ++i) A.row(i) = B[i];
 }
 
 
