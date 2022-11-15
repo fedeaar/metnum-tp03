@@ -32,14 +32,14 @@ namespace IO {
 
     graph read_grafo(const string &in, size_t start=0);
 
-    Eigen::SparseMatrix<double> read_matriz(const string &in, size_t start=0);
-    Eigen::SparseMatrix<double> read_matriz(ifstream &file);
+    Eigen::SparseMatrix<double, Eigen::RowMajor> read_matriz(const string &in, size_t start=0);
+    Eigen::SparseMatrix<double, Eigen::RowMajor> read_matriz(ifstream &file);
 
     Eigen::VectorXd read_vector(const string &in, size_t start=0);
     Eigen::VectorXd read_vector(ifstream &file);
 
-    void write_matriz(const string &out, const Eigen::SparseMatrix<double> &mat, int precision=PRECISION);
-    void write_matriz(ofstream &file, const Eigen::SparseMatrix<double> &mat, int precision=PRECISION);
+    void write_matriz(const string &out, const Eigen::SparseMatrix<double, Eigen::RowMajor> &mat, int precision=PRECISION);
+    void write_matriz(ofstream &file, const Eigen::SparseMatrix<double, Eigen::RowMajor> &mat, int precision=PRECISION);
 
     void write_vector(const string &out, const Eigen::VectorXd &vec, int precision=PRECISION);
     void write_vector(ofstream &file, const Eigen::VectorXd &vec, int precision=PRECISION);

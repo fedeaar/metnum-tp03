@@ -36,7 +36,7 @@ namespace pagerank {
         void write_out(const string &out, const out_file &data, int precision=::IO::PRECISION);
     };
 
-    Eigen::SparseMatrix<double> make(const IO::in_file &params);
+    Eigen::SparseMatrix<double, Eigen::RowMajor> make(const IO::in_file &params);
 
     Eigen::VectorXd solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, metodo met=EG, double tol=1e-4, size_t iter=1e5);
 };

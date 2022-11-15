@@ -92,7 +92,7 @@ void run(const params &program) {
     // calcular
     if (verbose) std::cout << "resolviendo pagerank (" << metodo << ")...\n";
     auto inicio_make = chrono::high_resolution_clock::now();
-    Eigen::SparseMatrix<double> A = pagerank::make(data);
+    Eigen::SparseMatrix<double, Eigen::RowMajor> A = pagerank::make(data);
     auto fin_make = chrono::high_resolution_clock::now();
     auto time_make = chrono::duration_cast<chrono::microseconds>(fin_make - inicio_make);
     if (verbose) std::cout << "tiempo de ejecucion etapa make (microsegundos): " << time_make.count() << '\n';
