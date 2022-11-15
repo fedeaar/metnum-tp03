@@ -63,7 +63,7 @@ Eigen::SparseMatrix<double, Eigen::RowMajor> pagerank::make(const pagerank::IO::
 Eigen::VectorXd
 pagerank::solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, pagerank::metodo met, double tol, size_t iter) {
     Eigen::VectorXd b = Eigen::VectorXd::Ones(mat.cols());
-    std::pair<bool, Eigen::VectorXd> res;
+    Eigen::VectorXd res;
     switch (met) {
         case pagerank::EG:
             metnum::eliminacion_gaussiana(mat, b);
@@ -76,6 +76,6 @@ pagerank::solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, pagerank::met
             res = metnum::jacobi(mat, b, tol, iter);
             break;
     }
-    res.second = res.second / res.second.sum();
-    return res.second;
+    res = res / res.sum();
+    return res;
 }
