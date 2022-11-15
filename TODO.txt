@@ -1,31 +1,32 @@
 - Usar la libreria "EIGEN" para matrices ralas.
 
-BRI	   - Implementar en c++ el metodo de jacobi.
-BRI	   - Implementar en c++ el metodo de Gauss-Seidel.
-FEDE NAT - Implementar eliminación gaussiana.
-(hay que buscar solucion 'ideal')
+casi:
+	MANU	- Implementar en c++ el metodo de jacobi.
+	MANU	- Implementar en c++ el metodo de Gauss-Seidel.
+	NAT 	- Implementar eliminación gaussiana.
+	(hay que buscar solucion 'ideal')
 
-FEDE - IO
+listo:
+	FEDE 	- IO
 
-FEDE - Graficar la convergencia para los casos de la cátedra con J y GS
-(iteracion eje x, error eje y)
-	- Calcular y mostrar el error entre nuestros resultados y los de la cátedra.
-	- armarse un script para graficar y evaluar
-	- escribir en latex
+todo:
 
-NAT - Comparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests
-(barras)
-	- armarse un script de python para evaluar y graficar
-	- escribir en latex
+	FEDE	- Graficar la convergencia para los casos de la cátedra con J y GS (iteracion eje x, error eje y)
+			- Calcular y mostrar el error entre nuestros resultados y los de la cátedra.
+			- armarse un script para graficar y evaluar
+			- escribir en latex
 
-MANU - Analizar como varían los tiempos de ejecución a medida que la densidad de la 
-matriz aumenta: 
-	- red sumidero
-	- uno a todos
-	- nada (?
-	- viborita
-	- todo con todo
-	- ciclica
-	- aleatorios
+	NAT 	- Comparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
+			- armarse un script de python para evaluar y graficar
+			- escribir en latex
 
-preguntar cuales son los tests TP1?
+	BRI 	- Analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
+				- red sumidero
+				- uno a todos
+				- nada (?
+				- viborita
+				- todo con todo
+				- ciclica
+				- aleatorios
+			- armarse un script al respecto
+			- escribir en latex
