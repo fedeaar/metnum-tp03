@@ -6,13 +6,13 @@
 
 namespace metnum {
 
-    void gauss_seidel(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b, double tol, size_t iter);
+    void gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter);
 
-    void jacobi(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b, double tol, size_t iter);
+    void jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter);
 
-    void eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b);
+    void eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b);
 
-    void backwards_substitution(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b);
+    void backwards_substitution(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b);
 }
 
 

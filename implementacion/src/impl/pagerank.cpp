@@ -60,7 +60,7 @@ Eigen::SparseMatrix<double> pagerank::make(const pagerank::IO::in_file &params) 
 }
 
 
-Eigen::VectorXd pagerank::solve(Eigen::SparseMatrix<double>& mat, pagerank::metodo met, double tol, size_t iter) {
+Eigen::VectorXd pagerank::solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, pagerank::metodo met, double tol, size_t iter) {
     Eigen::VectorXd b = Eigen::VectorXd::Ones(mat.cols());
     switch (met) {
         case pagerank::EG:

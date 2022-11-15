@@ -38,7 +38,7 @@ namespace pagerank {
 
     Eigen::SparseMatrix<double> make(const IO::in_file &params);
 
-    Eigen::VectorXd solve(Eigen::SparseMatrix<double>& mat, metodo met=EG, double tol=1e-4, size_t iter=1e5);
+    Eigen::VectorXd solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, metodo met=EG, double tol=1e-4, size_t iter=1e5);
 };
 
 

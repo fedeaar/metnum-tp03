@@ -35,7 +35,7 @@ void IterativosTests::pagerank_test(const string &in, const string &out) {
 
     graph g = IO::read_grafo(basedir + in);
     pagerank::IO::out_file expected = pagerank::IO::read_out(basedir + out);
-    Eigen::SparseMatrix<double> A = pagerank::make({g, expected.p_val});
+    Eigen::SparseMatrix<double, Eigen::RowMajor> A = pagerank::make({g, expected.p_val});
     Eigen::VectorXd res = pagerank::solve(A, M);
     EXPECT_LE((res - expected.solucion).norm(), epsilon);
 }

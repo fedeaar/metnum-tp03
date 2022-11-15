@@ -6,13 +6,13 @@
 // METODOS ITERATIVOS
 //
 
-void metnum::gauss_seidel(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+void metnum::gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
 
     // TODO
 }
 
 
-void metnum::jacobi(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+void metnum::jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
 
     // TODO
 }
@@ -92,51 +92,104 @@ void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::Vector
 // }
 
 void printM(Eigen::SparseMatrix<double> &A){
-    for(int i = 0; i < A.rows(); ++i) {
-        for(int j = 0; j < A.cols(); ++j){
-            std::cout << A.coeff(i, j) << " ";
-        }
-        std::cout << std::endl;
-    }
+    std::cout << A << std::endl;
 }
+void printM(Eigen::SparseMatrix<double, Eigen::RowMajor> &A){
+    std::cout << A << std::endl;
+}
+// void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b) {
+//     // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+//     //      b.size() == A.cols() == A.rows()
+//
+//     Eigen::SparseMatrix<double> B = A;
+//
+//     int n = B.rows();
+//
+//     for(int i = 0; i < n; ++i){
+//         std::vector<Eigen::Triplet<double>> M_list;
+//         for(int j = 0; j < n; ++j)
+//             M_list.emplace_back(Eigen::Triplet<double> {j, j, 1});
+//
+//
+//         Eigen::SparseMatrix<double>::InnerIterator it(B, i);
+//         while(it.row() < i) ++it;
+//         double mii = it.value();
+//         ++it;
+//         for ( ; it ; ++it)
+//             M_list.emplace_back(Eigen::Triplet<double> {it.row(), i, -it.value() / mii});
+//
+//         Eigen::SparseMatrix<double> M{(Eigen::Index) n, (Eigen::Index) n};
+//         M.setFromTriplets(M_list.begin(), M_list.end());
+//         B = (M * B).pruned(1e-3);
+//         b = M * b;
+//     }
+//
+//     A = B;
+// }
+//void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b) {
+//    // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+//    //      b.size() == A.cols() == A.rows()
+//
+//    for (int i = 0; i < A.rows() - 1; ++i) {
+//        printM(A);
+//        double mii = A.coeff(i, i);
+//        for(int j = i+1; j < A.rows(); ++j){
+//            double mij = A.coeff(j, i) / mii;
+//            if(mij == 0) continue;
+//            for(Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_i(A, i); it_fila_i; ++it_fila_i){
+//                A.coeffRef(j, it_fila_i.col()) -= it_fila_i.value() * mij;
+//            }
+//            b[j] = b[j] - b[i] * mij;
+//        }
+//        // A.makeCompressed();
+//    }
+//
+//}
+void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b) {
+   // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+   //      b.size() == A.cols() == A.rows()
 
-void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b) {
-    // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
-    //      b.size() == A.cols() == A.rows()
-    Eigen::SparseMatrix<double, Eigen::RowMajor> B = A;
+    int n = A.rows();
+    for (int i = 0; i < n-1; ++i) {
+        double mii = A.coeff(i, i);
+        for(int j = i+1; j < n; ++j){
+            double mij = A.coeff(j, i) / mii;
+            if(mij == 0) continue;
+            Eigen::SparseVector<double> new_Bj(n);
+            new_Bj.reserve(A.row(j).nonZeros() + A.row(i).nonZeros() - 2);
 
-    for (int i = 0; i < A.rows() - 1; ++i) {
-        Eigen::SparseMatrix<double>::InnerIterator it_col_i(A, i);
-
-        while(it_col_i.row() < i) ++it_col_i; // no hace falta chear out of range porque sabemos que el de la diag existe
-
-        double mii = it_col_i.value();
-        ++it_col_i;
-        for (; it_col_i ; ++it_col_i) {
-            int j = it_col_i.row();
-            double mij = it_col_i.value() / mii;
-            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_i(B, i);  
-            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_j(B, j);
-            while(it_fila_i && it_fila_j){
-                if(it_fila_i.col() > it_fila_j.col()) ++it_fila_j;
-                else if (it_fila_i.col() < it_fila_j.col()) ++it_fila_i;
-                else {
-                    it_fila_j.valueRef() -= it_fila_i.value() * mij;
+            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_i(A, i);
+            Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it_fila_j(A, j);
+            ++it_fila_j; // ya que el primer elemento sabemos que se convierte en 0
+            ++it_fila_i; // por lo que salteamos el primer elemento
+            while(it_fila_i || it_fila_j){
+                if(it_fila_j && (!it_fila_i || it_fila_j.col() < it_fila_i.col())){
+                    // si it_fila_i > it_fila_j agrega el elem que no va a editar de la fila original
+                    new_Bj.insertBack(it_fila_j.col()) = it_fila_j.value();
                     ++it_fila_j;
+                } else {
+                    double newVal = - it_fila_i.value() * mij;
+                    if(it_fila_j && it_fila_j.col() == it_fila_i.col()) {
+                        // si existe el elem it_fila_j entonces lo suma ya que sino es 0 y no afecta
+                        newVal += it_fila_j.value();
+                        ++it_fila_j;
+                    }
+                    if(abs(newVal) > 1e-4) new_Bj.insertBack(it_fila_i.col()) = newVal;
                     ++it_fila_i;
                 }
-
             }
+
+            A.row(j) = new_Bj;
             b[j] = b[j] - b[i] * mij;
         }
-        A = B;
     }
-    printM(A);
-
 }
 
 
-void metnum::backwards_substitution(Eigen::SparseMatrix<double> &A, Eigen::VectorXd &b) {
+
+
+
+void metnum::backwards_substitution(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b) {
     // pre: A es triangular superior cuadrada
     //      b.size() == a.rows()
     Eigen::SparseMatrix<double, Eigen::RowMajor> B = A;
