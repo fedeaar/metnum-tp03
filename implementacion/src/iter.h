@@ -2,7 +2,7 @@
 #define ITER_METNUM_H
 
 #include <Eigen/Sparse>
-
+#include <random>
 
 
 namespace metnum {

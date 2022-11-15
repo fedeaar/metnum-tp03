@@ -5,6 +5,7 @@ typedef Eigen::SparseMatrix<double, Eigen::RowMajor> RowMatrix;
 typedef Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator RowIterator;
 typedef Eigen::VectorXd EigenVector;
 
+const double EPSILON = 1e-10;
 
 //
 // UTILS
@@ -16,6 +17,25 @@ void printM(Eigen::SparseMatrix<double> &A){
 void printM(RowMatrix &A){
     std::cout << A << std::endl;
 }
+EigenVector aleatorio(size_t n, pair<int, int> range) {
+    EigenVector res(n);
+    random_device rd;
+    mt19937 rng {rd()}; // Mersenne Twister
+    uniform_int_distribution<int> dist(range.first, range.second);
+    bool cero = true;
+    for (double & re : res) {
+        re = dist(rng);
+        cero = cero && re == 0;
+    }
+    if (cero) { // si res == 0, usamos e1.
+        res[0] = 1;
+    }
+    return res;
+}
+EigenVector normalizar(const EigenVector &v) {
+    double n = sqrt(v.dot(v));
+    return abs(n) < EPSILON ? v : v / n;
+}
 
 
 
@@ -24,9 +44,10 @@ void printM(RowMatrix &A){
 // METODOS ITERATIVOS
 //
 
-std::pair<bool, EigenVector> metnum::gauss_seidel(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
+EigenVector metnum::gauss_seidel(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
 
     EigenVector x(b.size()), y(b.size()), z(b.size());
+    x = normalizar(aleatorio(A.cols()));
     bool converge = false;
 
     for (int i = 0; i < iter && !converge; ++i) {
@@ -47,11 +68,11 @@ std::pair<bool, EigenVector> metnum::gauss_seidel(RowMatrix &A, EigenVector &b, 
         converge = sqrt(z.dot(z)) < tol;
     }
 
-    return std::make_pair(converge, x);
+    return x;
 }
 
 
-std::pair<bool, EigenVector> metnum::jacobi(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
+EigenVector metnum::jacobi(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
 
     EigenVector x(b.size()), y(b.size()), z(b.size());
     bool converge = false;
@@ -74,7 +95,7 @@ std::pair<bool, EigenVector> metnum::jacobi(RowMatrix &A, EigenVector &b, double
         converge = sqrt(z.dot(z)) < tol;
     }
 
-    return std::make_pair(converge, x);
+    return x;
 }
 
 
