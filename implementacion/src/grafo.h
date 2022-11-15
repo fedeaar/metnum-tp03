@@ -22,7 +22,7 @@ struct graph {
     vector<coords> relaciones;
 };
 
-Eigen::SparseMatrix<double> grafo_a_matriz(const graph &g);
+Eigen::SparseMatrix<double, Eigen::RowMajor> grafo_a_matriz(const graph &g);
 
 
 #endif //ITER_GRAFO_H

@@ -36,7 +36,7 @@ void pagerank::IO::write_out(const string &out, const out_file &data, int precis
 // PAGERANK
 //
 
-Eigen::SparseMatrix<double> pagerank::make(const pagerank::IO::in_file &params) {
+Eigen::SparseMatrix<double, Eigen::RowMajor> pagerank::make(const pagerank::IO::in_file &params) {
     size_t n = params.grafo.nodos;
     vector<double> grado(n);
     for (auto &r: params.grafo.relaciones) {
@@ -54,26 +54,28 @@ Eigen::SparseMatrix<double> pagerank::make(const pagerank::IO::in_file &params) 
         t_list.emplace_back(Eigen::Triplet<double>{i, i, 1});
     }
     // m = I - pWD
-    Eigen::SparseMatrix<double> m{(Eigen::Index) n, (Eigen::Index) n};
+    Eigen::SparseMatrix<double, Eigen::RowMajor> m{(Eigen::Index) n, (Eigen::Index) n};
     m.setFromTriplets(t_list.begin(), t_list.end());
     return m;
 }
 
 
-Eigen::VectorXd pagerank::solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, pagerank::metodo met, double tol, size_t iter) {
+Eigen::VectorXd
+pagerank::solve(Eigen::SparseMatrix<double, Eigen::RowMajor>& mat, pagerank::metodo met, double tol, size_t iter) {
     Eigen::VectorXd b = Eigen::VectorXd::Ones(mat.cols());
+    std::pair<bool, Eigen::VectorXd> res;
     switch (met) {
         case pagerank::EG:
             metnum::eliminacion_gaussiana(mat, b);
+            res = metnum::backwards_substitution(mat, b);
             break;
         case pagerank::GS:
-            metnum::gauss_seidel(mat, b, tol, iter);
+            res = metnum::gauss_seidel(mat, b, tol, iter);
             break;
         case pagerank::J:
-            metnum::jacobi(mat, b, tol, iter);
+            res = metnum::jacobi(mat, b, tol, iter);
             break;
     }
-    metnum::backwards_substitution(mat, b);
-    b = b / b.sum();
-    return b;
+    res.second = res.second / res.second.sum();
+    return res.second;
 }

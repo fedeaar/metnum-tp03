@@ -1,20 +1,61 @@
 #include <iostream>
 #include "../iter.h"
-#include <chrono>
 
 //
 // METODOS ITERATIVOS
 //
 
-void metnum::gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+std::pair<bool, EigenVector> metnum::gauss_seidel(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
 
-    // TODO
+    EigenVector x(b.size()), y(b.size()), z(b.size());
+    bool converge = false;
+
+    for (int i = 0; i < iter && !converge; ++i) {
+        // Actualizo x
+        y = x;
+        for (int j = 0; j < x.size(); ++j) {
+            double suma = 0;
+            for (RowIterator it(A, j); it; ++it) {
+                // Si it.col() < j, va a tomar los valores nuevos de x
+                if (it.col() != j) {
+                    suma += it.value() * x[it.col()];
+                }
+            }
+            x[j] = (b[j] - suma) / A.coeff(j, j);
+        }
+        // Chequeo convergencia
+        z = x - y;
+        converge = sqrt(z.dot(z)) < tol;
+    }
+
+    return std::make_pair(converge, x);
 }
 
 
-void metnum::jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+std::pair<bool, EigenVector> metnum::jacobi(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
 
-    // TODO
+    EigenVector x(b.size()), y(b.size()), z(b.size());
+    bool converge = false;
+
+    for (int i = 0; i < iter && !converge; ++i) {
+        // Actualizo x
+        y = x;
+        for (int j = 0; j < x.size(); ++j) {
+            double suma = 0;
+            for (RowIterator it(A, j); it; ++it) {
+                // Recorro solo los indices no nulos de la fila j
+                if (it.col() != j) {
+                    suma += it.value() * y[it.col()];
+                }
+            }
+            x[j] = (b[j] - suma) / A.coeff(j, j);
+        }
+        // Chequeo convergencia
+        z = x - y;
+        converge = sqrt(z.dot(z)) < tol;
+    }
+
+    return std::make_pair(converge, x);
 }
 
 
@@ -66,17 +107,17 @@ void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> 
 }
 
 
-
-void metnum::backwards_substitution(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b) {
+std::pair<bool, EigenVector> metnum::backwards_substitution(RowMatrix &A, EigenVector &b) {
     // pre: A es triangular superior cuadrada
     //      b.size() == a.rows()
-    Eigen::SparseMatrix<double, Eigen::RowMajor> B = A;
-    for (int i = B.rows() - 1; i >= 0; --i) {
+    EigenVector res = b;
+    for (int i = A.rows() - 1; i >= 0; --i) {
         double parcial = 0;
-        for (Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it(B, i); it; ++it) {
+        for (RowIterator it(A, i); it; ++it) {
             if (it.col() < i + 1) continue;
-            parcial += it.value() * b[it.col()];
+            parcial += it.value() * res[it.col()];
         }
-        b[i] = (b[i] - parcial) / B.coeff(i, i);
+        res[i] = (res[i] - parcial) / A.coeff(i, i);
     }
+    return {true, res};
 }

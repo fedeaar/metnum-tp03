@@ -5,7 +5,7 @@
 // GRAFO
 //
 
-Eigen::SparseMatrix<double> grafo_a_matriz(const graph &g) {
+Eigen::SparseMatrix<double, Eigen::RowMajor> grafo_a_matriz(const graph &g) {
     std::vector<Eigen::Triplet<double>> t_list;
     t_list.reserve(g.links);
     for (auto &r: g.relaciones) {

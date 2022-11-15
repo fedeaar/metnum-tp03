@@ -130,7 +130,7 @@ graph IO::read_grafo(const string &in, size_t start) {
 }
 
 
-Eigen::SparseMatrix<double> IO::read_matriz(const string &in, size_t start) {
+Eigen::SparseMatrix<double, Eigen::RowMajor> IO::read_matriz(const string &in, size_t start) {
     ifstream file{in, ios::binary};
     if (!file.is_open()) {
         throw std::invalid_argument("no se pudo leer el archivo: " + in + ".");
@@ -138,7 +138,7 @@ Eigen::SparseMatrix<double> IO::read_matriz(const string &in, size_t start) {
     skip_lines(file, start);
     return read_matriz(file);
 }
-Eigen::SparseMatrix<double> IO::read_matriz(ifstream &file) {
+Eigen::SparseMatrix<double, Eigen::RowMajor> IO::read_matriz(ifstream &file) {
     // n, m
     pair<size_t, size_t> shape = _shape(file);
     long long n = shape.first, m = shape.second;
@@ -158,7 +158,7 @@ Eigen::SparseMatrix<double> IO::read_matriz(ifstream &file) {
             ++i;
         }
     }
-    Eigen::SparseMatrix<double> res{n, m};
+    Eigen::SparseMatrix<double, Eigen::RowMajor> res{n, m};
     res.setFromTriplets(t_list.begin(), t_list.end());
     file.close();
     return res;
@@ -193,11 +193,11 @@ Eigen::VectorXd IO::read_vector(ifstream &file) {
 }
 
 
-void IO::write_matriz(const string &out, const Eigen::SparseMatrix<double> &mat, int precision) {
+void IO::write_matriz(const string &out, const Eigen::SparseMatrix<double, Eigen::RowMajor> &mat, int precision) {
     ofstream file{out};
     write_matriz(file, mat, precision);
 }
-void IO::write_matriz(ofstream &file, const Eigen::SparseMatrix<double> &mat, int precision) {
+void IO::write_matriz(ofstream &file, const Eigen::SparseMatrix<double, Eigen::RowMajor> &mat, int precision) {
     file << std::setprecision(precision) << std::fixed << mat << endl;
     file.close();
 }
