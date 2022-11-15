@@ -44,7 +44,7 @@ Para este procedimiento se asume que trabajaremos en bash. Desde la raiz del rep
 4. creamos el ejecutable principal (el mismo se requerirá para los experimentos)
     > $ make ./tp3 
 
-5. ejecutar
+5. ejecutamos
 
     > $ ./tp3 ../catedra/tests-pagerank/test_aleatorio.txt 0.76
 
@@ -60,7 +60,7 @@ El ejecutable permite trabajar con los siguientes parámetros.
 
 Obligatorios (deben estar en orden):
 
-- `*` (string): fuente del archivo de entrada. El mismo debe estar formateado como una lista de adyacencia (con ' ' como delimitador). Si se  Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
+- `*` (string): fuente del archivo de entrada. El mismo debe estar formateado como una lista de adyacencia (con ' ' como delimitador). Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
 
 - `*` [0, 1): valor p.
 
@@ -69,7 +69,7 @@ Opcionales:
 
 - `-m`: método a utilizar. `EG` (eliminación gaussiana), `GS` (gauss-siedel) ó  `J` (jacobi). Por default `EG`. Ejemplo de uso: `-m GS`. 
 
-- `-tol`: tolerancia mínima a partir de la que una solución se considera válida. Por default 1e-4. Aplica sólo para `-m GS` y `-m J`. Ejemplo de uso: `-tol 1e-10`.
+- `-tol`: tolerancia mínima de cambio entre pasos consecutivos a partir de la que una solución se considera válida. Por default 1e-4. Aplica sólo para `-m GS` y `-m J`. Ejemplo de uso: `-tol 1e-10`.
 
 - `-iter`: máxima cantidad de iteraciones a realizar. Por default 1e5. Aplica sólo para `-m GS` y `-m J`. Ejemplo de uso: `-iter 1e6`.
 
@@ -79,6 +79,6 @@ Opcionales:
 
 - `-p`: la precisión con la que se guardaran los resultados, en el sentido de la cantidad de dígitos decimales después de la coma. Por defecto 15. Ejemplo de uso: `-p 8`.
 
-- `-time`: Flag. Si se pasa éste parámetro, se guardará el tiempo de ejecución de distintas etapas del algoritmo (descontando las operaciones de IO) en un archivo con la extensión `.time`.
+- `-time`: Flag. Si se pasa éste parámetro, se guardará el tiempo de ejecución de distintas etapas del algoritmo (descontando las operaciones de IO) en un archivo CSV con la extensión `.time`.
 
 - `-v`: Flag. Verbose. Si se pasa éste parámetro, se imprimirá en la consola información relevante durante la ejecución del programa.
