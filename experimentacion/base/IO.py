@@ -39,7 +39,7 @@ def write_adylist(filename, matrix, complete=True):
 
 def read_time(filename):
 
-    return pd.read_csv(filename);
+    return pd.read_csv(filename)
 
 
 #
