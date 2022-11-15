@@ -60,7 +60,7 @@ std::pair<bool, EigenVector> metnum::jacobi(RowMatrix &A, EigenVector &b, double
 
 
 
-void metnum::eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol) {
+void metnum::eliminacion_gaussiana(RowMatrix &A, EigenVector &b, double tol) {
    // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
    //      b.size() == A.cols() == A.rows()
 
