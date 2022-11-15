@@ -6,15 +6,56 @@
 // METODOS ITERATIVOS
 //
 
-void metnum::gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+std::pair<bool, Eigen::VectorXd> metnum::gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+    Eigen::VectorXd x(b.size()), y(b.size()), z(b.size());
+    bool converge = false;
 
-    // TODO
+    for (int i = 0; i < iter && !converge; ++i) {
+        // Actualizo x
+        y = x;
+        for (int j = 0; j < x.size(); ++j) {
+            int suma = 0;
+            for (SparseMatrix<double>::InnerIterator it(mat,j); it; ++it) { 
+                // Si it.col() < j, va a tomar los valores nuevos de x
+                if (it.col() != j) {
+                    suma += it.value() * x[it.col()];
+                }
+            }
+            x[j] = (b[j] - sum) / A[j,j];
+        }
+        // Chequeo convergencia
+        z = x - y;
+        converge = sqrt(z.dot(z)) < tol;
+    }
+
+    return std::make_pair(converge, x);
 }
 
 
-void metnum::jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
+std::pair<bool, Eigen::VectorXd> metnum::jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter) {
 
-    // TODO
+    Eigen::VectorXd x(b.size()), y(b.size()), z(b.size());
+    bool converge = false;
+
+    for (int i = 0; i < iter && !converge; ++i) {
+        // Actualizo x
+        y = x;
+        for (int j = 0; j < x.size(); ++j) {
+            int suma = 0;
+            for (SparseMatrix<double>::InnerIterator it(mat,j); it; ++it) { 
+                // Recorro solo los indices no nulos de la fila j
+                if (it.col() != j) {
+                    suma += it.value() * y[it.col()];
+                }
+            }
+            x[j] = (b[j] - sum) / A[j,j];
+        }
+        // Chequeo convergencia
+        z = x - y;
+        converge = sqrt(z.dot(z)) < tol;
+    }
+
+    return std::make_pair(converge, x);
 }
 
 
