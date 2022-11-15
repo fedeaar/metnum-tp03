@@ -2,7 +2,7 @@
 #define ITER_METNUM_H
 
 #include <Eigen/Sparse>
-
+#include <random>
 
 
 namespace metnum {
@@ -13,7 +13,7 @@ namespace metnum {
     std::pair<bool, Eigen::VectorXd>
     jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter);
 
-    void eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b);
+    void eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol=9e-6);
 
     std::pair<bool, Eigen::VectorXd>
     backwards_substitution(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b);
