@@ -1,20 +1,5 @@
-- Usar la libreria "EIGEN" para matrices ralas.
-
-casi:
-	MANU	- Implementar en c++ el metodo de jacobi.
-	MANU	- Implementar en c++ el metodo de Gauss-Seidel.
-	NAT 	- Implementar eliminación gaussiana.
-	(hay que buscar solucion 'ideal')
-
-listo:
-	FEDE 	- IO
-
-todo:
-
-	FEDE	- Graficar la convergencia para los casos de la cátedra con J y GS (iteracion eje x, error eje y)
-			- Calcular y mostrar el error entre nuestros resultados y los de la cátedra.
-			- armarse un script para graficar y evaluar
-			- escribir en latex
+TODO:
+	FEDE 	- escribir en latex sobre convergencia
 
 	NAT 	- Comparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
 			- armarse un script de python para evaluar y graficar
@@ -30,3 +15,11 @@ todo:
 				- aleatorios
 			- armarse un script al respecto
 			- escribir en latex
+
+OK:
+	- Usar la libreria "EIGEN" para matrices ralas.
+	FEDE 	- IO
+	MANU	- Implementar en c++ el metodo de jacobi.
+	MANU	- Implementar en c++ el metodo de Gauss-Seidel.
+	NAT 	- Implementar eliminación gaussiana.
+	FEDE	- Graficar la convergencia para los casos de la cátedra con J y GS (iteracion eje x, error eje y)
