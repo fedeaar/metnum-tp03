@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
 
-import pygraphviz
-import networkx as nx
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set(rc={'figure.figsize':(14, 7)}, font="Times New Roman")
+sns.set(rc={'figure.figsize':(14, 8)}, font="Times New Roman", font_scale=1.5)
 
 
 # GLOBALES
@@ -102,7 +100,7 @@ def corr(x, y, epsilon=1e-16):
     return a / b if abs(b) >= epsilon else 0
 
 
-def graficar(x, y, hue, xaxis, yaxis, filename, units=None):
+def graficar(x, y, hue, xaxis, yaxis, filename, units=None, log=False):
     
     plt.figure()
     df   = pd.DataFrame({"x":x, "y":y, "hue":hue})
@@ -118,14 +116,18 @@ def graficar(x, y, hue, xaxis, yaxis, filename, units=None):
     plot = sns.lineplot(**kwargs)
     
 
-    plot.set_xlabel(xaxis, fontsize=18, labelpad=12)
-    plot.set_ylabel(yaxis, fontsize= 18, labelpad=20) 
-    plt.tick_params(axis='both', which='major', labelsize=16)
+    plot.set_xlabel(xaxis, fontsize=22, labelpad=10)
+    plot.set_ylabel(yaxis, fontsize=22, labelpad=10) 
+    plt.tick_params(axis='both', which='major', labelsize=18)
     plt.legend(title=None)
-
+    if log:
+        plot.set_yscale('log')
+        
     fig = plot.get_figure()
+    fig.subplots_adjust(bottom=0.15)
     fig.savefig(filename)
     plt.close(fig)
+
 
 def graficar2(x, y, hue, x2, y2, hue2, xaxis, yaxis, filename):
     
@@ -145,32 +147,6 @@ def graficar2(x, y, hue, x2, y2, hue2, xaxis, yaxis, filename):
     fig = plot.get_figure()
     fig.savefig(filename)
     plt.close(fig)
-
-
-def graficar_grafo(A, filename, 
-    size=(10, 10),
-    node_size=300,
-    font_size=12, 
-    node_color="lightgray", 
-    edge_color='black',
-    font_color="k", 
-    with_labels=True):
-
-    G = nx.from_numpy_array(A)
-    f = plt.figure(figsize=size)
-    layout = nx.nx_agraph.graphviz_layout(G, 'neato')
-    options={
-         'node_color': node_color,
-         'node_size': node_size,
-         'font_size': font_size,
-         'font_color': font_color,
-         'edge_color': edge_color,
-         'with_labels': with_labels
-    }
-    nx.draw(G, layout, ax=f.add_subplot(), **options)
-
-    f.savefig(filename)
-    plt.close(f)
 
 
 def armarMatriz(inicial, n):
@@ -247,3 +223,33 @@ def alt_deflacion(A, k, niter=10000, epsilon=1e-6):
         
     return np.array(eigs), vecs
     
+
+def W_to_D(W):
+
+    n = W.shape[0]
+    D = np.full((n, n), 0, dtype=np.double)
+    rango = W.sum(axis=0)
+    for i in range(n):
+        D[i][i] = 1 / rango[i] if rango[i] != 0 else 0
+
+    return D
+
+
+def W_to_IpWD(W, n, p): 
+
+    I = np.eye(n)
+    D = W_to_D(W)
+
+    return I - p * W @ D
+
+
+def W_to_A(W, p):
+
+    n = W.shape[0]
+    D = W_to_D(W)
+    e = np.full((n, 1), 1, dtype=np.double)
+    z = np.full((n, 1), 0, dtype=np.double)
+    for i in range(n):
+        z[i] = (1 - p) / n if D[i][i] != 0 else 1 / n    
+
+    return p * W @ D + e @ z.T

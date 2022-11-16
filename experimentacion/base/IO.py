@@ -42,6 +42,31 @@ def read_time(filename):
     return pd.read_csv(filename)
 
 
+def read_in(filename):
+
+    with open(filename) as file:
+        data = file.read().splitlines()
+        n         = int(data[0])
+        cantLinks = int(data[1])
+        links     = [x.split(' ') for x in data[2:]]
+        matriz    = np.full((n, n), 0)
+        for link in links:
+            if (len(link) == 2):
+                matriz[int(link[1]) - 1][int(link[0]) - 1] = 1
+
+    return n, cantLinks, matriz
+
+
+def read_out(filename):
+
+    with open(filename) as file:
+        data  = file.read().splitlines()
+        p_val = float(data[0])
+        resultado = np.array([float(x) for x in data[1:]])
+
+    return p_val, resultado
+
+
 #
 # IO experimentos
 #
