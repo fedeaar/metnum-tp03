@@ -2,6 +2,7 @@
 #include <Eigen/Sparse>
 #include "../src/IO.h"
 #include "../src/pagerank.h"
+using namespace std;
 
 #if METODO == 0
 pagerank::metodo M = pagerank::EG;
@@ -19,11 +20,12 @@ pagerank::metodo M = pagerank::J;
 class IterativosTests : public testing::Test {
 protected:
     string basedir;
-    double epsilon;
+    double epsilon, epsilon_res;
     size_t iter;
     void SetUp() override {
         basedir = "../../catedra/tests-pagerank/";
-        epsilon = 1e-4;
+        epsilon = 9e-6;
+        epsilon_res = 1e-4;
         iter = 1e5;
     }
 
@@ -34,9 +36,9 @@ protected:
 void IterativosTests::pagerank_test(const string &in, const string &out) {
     graph g = IO::read_grafo(basedir + in);
     pagerank::IO::out_file expected = pagerank::IO::read_out(basedir + out);
-    Eigen::SparseMatrix<double, Eigen::RowMajor> A = pagerank::make({g, expected.p_val});
+    metnum::RowMatrix A = pagerank::make({g, expected.p_val});
     Eigen::VectorXd res = pagerank::solve(A, M, epsilon, iter);
-    EXPECT_LE((res - expected.solucion).norm(), epsilon);
+    EXPECT_LE((res - expected.solucion).norm(), epsilon_res);
 }
 
 

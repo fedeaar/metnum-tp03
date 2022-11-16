@@ -8,7 +8,7 @@
 int main(int argc,  char** argv) {
 
     if (argc < 3 || argc > 17) {
-        cout << "error: cantidad invalida de parametros.\n" <<
+        std::cout << "error: cantidad invalida de parametros.\n" <<
              "expected: [source] [p_value]\n"  <<
              "          -m      (metodo)            ['EG' | 'GS' | 'J'],  default = 'EG'\n" <<
              "          -tol    (tolerancia GS, J)  [double],             default = 1e-4\n" <<
@@ -17,7 +17,7 @@ int main(int argc,  char** argv) {
              "          -as     (save as)           [string],             default = (nombre del source)\n" <<
              "          -p      (precision)         [uint(0, 15)],        default = 15\n" <<
              "          -time   (medir tiempos)                           default = false\n" <<
-             "          -v      (verbose)                                 default = false" << endl;
+             "          -v      (verbose)                                 default = false" << std::endl;
         return -1;
     }
 

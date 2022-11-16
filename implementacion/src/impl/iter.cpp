@@ -1,27 +1,16 @@
 #include <iostream>
 #include "../iter.h"
-
-typedef Eigen::SparseMatrix<double, Eigen::RowMajor> RowMatrix;
-typedef Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator RowIterator;
-typedef Eigen::VectorXd EigenVector;
-
-const double EPSILON = 1e-10;
+using namespace metnum;
 
 //
 // UTILS
 //
 
-void printM(Eigen::SparseMatrix<double> &A){
-    std::cout << A << std::endl;
-}
-void printM(RowMatrix &A){
-    std::cout << A << std::endl;
-}
-EigenVector aleatorio(size_t n, pair<int, int> range) {
-    EigenVector res(n);
-    random_device rd;
-    mt19937 rng {rd()}; // Mersenne Twister
-    uniform_int_distribution<int> dist(range.first, range.second);
+DenseVector aleatorio(size_t n, std::pair<int, int> range={INT32_MIN, INT32_MAX}) {
+    DenseVector res(n);
+    std::random_device rd;
+    std::mt19937 rng {rd()}; // Mersenne Twister
+    std::uniform_int_distribution<int> dist(range.first, range.second);
     bool cero = true;
     for (double & re : res) {
         re = dist(rng);
@@ -32,11 +21,15 @@ EigenVector aleatorio(size_t n, pair<int, int> range) {
     }
     return res;
 }
-EigenVector normalizar(const EigenVector &v) {
+DenseVector normalizar(const DenseVector &v) {
     double n = sqrt(v.dot(v));
     return abs(n) < EPSILON ? v : v / n;
 }
 
+
+llong min(llong a, llong b) {
+    return a <= b ? a : b;
+}
 
 
 
@@ -44,84 +37,74 @@ EigenVector normalizar(const EigenVector &v) {
 // METODOS ITERATIVOS
 //
 
-EigenVector metnum::gauss_seidel(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
-
-    EigenVector x(b.size()), y(b.size()), z(b.size());
-    x = normalizar(aleatorio(A.cols()));
+DenseVector metnum::gauss_seidel(RowMatrix &A, DenseVector &b, double tol, size_t iter) {
+    DenseVector x(b.size()), y(b.size()), z(b.size());
+    x = normalizar(aleatorio(A.size()));
     bool converge = false;
-
     for (int i = 0; i < iter && !converge; ++i) {
         // Actualizo x
         y = x;
         for (int j = 0; j < x.size(); ++j) {
             double suma = 0;
-            for (RowIterator it(A, j); it; ++it) {
+            for (RowIterator it(A[j]); it; ++it) {
                 // Si it.col() < j, va a tomar los valores nuevos de x
-                if (it.col() != j) {
-                    suma += it.value() * x[it.col()];
+                if (it.row() != j) {
+                    suma += it.value() * x[it.row()];
                 }
             }
-            x[j] = (b[j] - suma) / A.coeff(j, j);
+            x[j] = (b[j] - suma) / A[j].coeff(j);
         }
         // Chequeo convergencia
         z = x - y;
         converge = sqrt(z.dot(z)) < tol;
     }
-
     return x;
 }
 
 
-EigenVector metnum::jacobi(RowMatrix &A, EigenVector &b, double tol, size_t iter) {
-
-    EigenVector x(b.size()), y(b.size()), z(b.size());
+DenseVector metnum::jacobi(RowMatrix &A, DenseVector &b, double tol, size_t iter) {
+    DenseVector x(b.size()), y(b.size()), z(b.size());
+    x = normalizar(aleatorio(A.size()));
     bool converge = false;
-
     for (int i = 0; i < iter && !converge; ++i) {
         // Actualizo x
         y = x;
         for (int j = 0; j < x.size(); ++j) {
             double suma = 0;
-            for (RowIterator it(A, j); it; ++it) {
+            for (RowIterator it(A[j]); it; ++it) {
                 // Recorro solo los indices no nulos de la fila j
-                if (it.col() != j) {
-                    suma += it.value() * y[it.col()];
+                if (it.row() != j) {
+                    suma += it.value() * y[it.row()];
                 }
             }
-            x[j] = (b[j] - suma) / A.coeff(j, j);
+            x[j] = (b[j] - suma) / A[j].coeff(j);
         }
         // Chequeo convergencia
         z = x - y;
         converge = sqrt(z.dot(z)) < tol;
     }
-
     return x;
 }
 
 
-
-void metnum::eliminacion_gaussiana(RowMatrix &A, EigenVector &b, double tol) {
-   // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
-   //      b.size() == A.cols() == A.rows()
-
-    int n = A.rows();
-    std::vector<Eigen::SparseVector<double>> B(n);
-    for(int i = 0; i < n; ++i) B[i] = A.row(i);
-
+void metnum::eliminacion_gaussiana(RowMatrix &A, DenseVector &b, double tol) {
+    // pre: A_ii != 0 para i: 0 ... N. hasta el final de la eliminación
+    //      b.size() == A.cols() == A.rows()
+    llong n = A.size();
     for (int i = 0; i < n-1; ++i) {
-        double mii = B[i].coeff(i);
-        for(int j = i+1; j < n; ++j){
-            double mij = B[j].coeff(i) / mii;
-            if(abs(mij) < tol) continue;
+        double mii = A[i].coeff(i);
+        for (int j = i+1; j < n; ++j) {
+            double mij = A[j].coeff(i) / mii;
+            if (abs(mij) < tol) continue;
 
-            Eigen::SparseVector<double> new_Bj(n);
-            new_Bj.reserve(fmin(B[j].nonZeros() + B[i].nonZeros() - 1, n));
-
-            Eigen::SparseVector<double>::InnerIterator it_fila_i(B[i]);
-            Eigen::SparseVector<double>::InnerIterator it_fila_j(B[j]);
+            SparseVector new_Bj(n);
+            new_Bj.reserve(min(A[j].nonZeros() + A[i].nonZeros() - 1, n));
+            RowIterator it_fila_i(A[i]);
+            RowIterator it_fila_j(A[j]);
             ++it_fila_j; // ya que el primer elemento sabemos que se convierte en 0
             ++it_fila_i; // por lo que salteamos el primer elemento
-            while(it_fila_i || it_fila_j) {
+
+            while (it_fila_i || it_fila_j) {
                 if (!it_fila_i || (it_fila_j && it_fila_j.index() < it_fila_i.index())) {
                     // si it fila_i > it_fila_j agrega el elem que no va a editar de la fila original
                     new_Bj.insertBack(it_fila_j.index()) = it_fila_j.value();
@@ -134,30 +117,30 @@ void metnum::eliminacion_gaussiana(RowMatrix &A, EigenVector &b, double tol) {
                         newVal += it_fila_j.value();
                         ++it_fila_j;
                     }
-                    if (abs(newVal) > tol) new_Bj.insertBack(it_fila_i.index()) = newVal;
+                    if (abs(newVal) > tol) {
+                        new_Bj.insertBack(it_fila_i.index()) = newVal;
+                    }
                     ++it_fila_i;
                 }
             }
-
-            B[j] = new_Bj;
+            A[j] = new_Bj;
             b[j] = b[j] - b[i] * mij;
         }
     }
-    for(int i = 0; i < n; ++i) A.row(i) = B[i];
 }
 
 
-std::pair<bool, EigenVector> metnum::backwards_substitution(RowMatrix &A, EigenVector &b) {
+DenseVector metnum::backwards_substitution(RowMatrix &A, DenseVector &b) {
     // pre: A es triangular superior cuadrada
     //      b.size() == a.rows()
-    EigenVector res = b;
-    for (int i = A.rows() - 1; i >= 0; --i) {
+    DenseVector res = b;
+    for (int i = A.size() - 1; i >= 0; --i) {
         double parcial = 0;
-        for (RowIterator it(A, i); it; ++it) {
-            if (it.col() < i + 1) continue;
-            parcial += it.value() * res[it.col()];
+        for (RowIterator it(A[i]); it; ++it) {
+            if (it.row() < i + 1) continue;
+            parcial += it.value() * res[it.row()];
         }
-        res[i] = (res[i] - parcial) / A.coeff(i, i);
+        res[i] = (res[i] - parcial) / A[i].coeff(i);
     }
-    return {true, res};
+    return res;
 }

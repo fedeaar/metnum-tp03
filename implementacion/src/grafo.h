@@ -3,9 +3,7 @@
 
 #include <cstdlib>
 #include <vector>
-#include <Eigen/Sparse>
-
-using namespace std;
+#include "iter.h"
 
 
 struct coords {
@@ -19,10 +17,10 @@ struct graph {
 
     size_t nodos;
     size_t links;
-    vector<coords> relaciones;
+    std::vector<coords> relaciones;
 };
 
-Eigen::SparseMatrix<double, Eigen::RowMajor> grafo_a_matriz(const graph &g);
+metnum::RowMatrix grafo_a_matriz(const graph &g);
 
 
 #endif //ITER_GRAFO_H

@@ -7,16 +7,22 @@
 
 namespace metnum {
 
-    std::pair<bool, Eigen::VectorXd>
-    gauss_seidel(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter);
+    typedef long long llong;
+    typedef std::vector<Eigen::SparseVector<double>> RowMatrix;
+    typedef Eigen::SparseVector<double>::InnerIterator RowIterator;
+    typedef Eigen::VectorXd DenseVector;
+    typedef Eigen::SparseVector<double> SparseVector;
 
-    std::pair<bool, Eigen::VectorXd>
-    jacobi(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol, size_t iter);
+    const double EPSILON = 9e-6;
 
-    void eliminacion_gaussiana(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b, double tol=9e-6);
 
-    std::pair<bool, Eigen::VectorXd>
-    backwards_substitution(Eigen::SparseMatrix<double, Eigen::RowMajor> &A, Eigen::VectorXd &b);
+    DenseVector gauss_seidel(RowMatrix &A, DenseVector &b, double tol, size_t iter);
+
+    DenseVector jacobi(RowMatrix &A, DenseVector &b, double tol, size_t iter);
+
+    void eliminacion_gaussiana(RowMatrix &A, DenseVector &b, double tol=EPSILON);
+
+    DenseVector backwards_substitution(RowMatrix &A, DenseVector &b);
 }
 
 

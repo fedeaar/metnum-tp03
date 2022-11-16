@@ -1,16 +1,16 @@
 #ifndef ITER_RUN_H
 #define ITER_RUN_H
 
-#include <Eigen/Sparse>
 #include "IO.h"
+#include "iter.h"
 #include "pagerank.h"
 
 
 struct params {
-    map<string, string> string_params {};
-    map<string, double> double_params {};
-    map<string, size_t> size_t_params {};
-    map<string, bool>   bool_params {};
+    std::map<std::string, std::string> string_params {};
+    std::map<std::string, double> double_params {};
+    std::map<std::string, size_t> size_t_params {};
+    std::map<std::string, bool>   bool_params {};
 };
 
 params get(int argc,  char** argv);
