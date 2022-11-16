@@ -16,5 +16,5 @@ informe/*.blg
 informe/*.bbl
 
 *.exe
-experimentos/**.out
-experimentos/**.in
+experimentacion/**/out
+experimentacion/**/in
