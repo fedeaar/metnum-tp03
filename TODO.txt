@@ -1,9 +1,12 @@
 TODO:
+	MANU 	- escribir en latex implementacion GS y J
+
 	FEDE 	- escribir en latex sobre convergencia
 
 	NAT 	- Comparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
 			- armarse un script de python para evaluar y graficar
 			- escribir en latex
+			- escribir en latex implementacion EG y rep. matriz
 
 	BRI 	- Analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
 				- red sumidero
@@ -23,3 +26,5 @@ OK:
 	MANU	- Implementar en c++ el metodo de Gauss-Seidel.
 	NAT 	- Implementar eliminación gaussiana.
 	FEDE	- Graficar la convergencia para los casos de la cátedra con J y GS (iteracion eje x, error eje y)
+	MANU	- intro teorica latex
+	FEDE	- resumen latex
