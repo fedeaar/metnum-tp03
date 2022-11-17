@@ -4,15 +4,12 @@ proc jacobi(in A: matriz<n, n>, in b: vector, in q: Nat, in t: Real) {
     
     i := 0
     while i < q and $||$z$||_2$ >= t {
-
         y := x
         j := 0
         while j < n {
-
             s := 0
             k := 0
             while k < n {
-
                 if k != j {
                     s := s + A[j][k] * y[k]
                 } 

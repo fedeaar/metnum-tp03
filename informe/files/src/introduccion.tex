@@ -69,9 +69,10 @@ Se puede demostrar que, de converger, ambos métodos lo harán a una solución d
 Definamos la siguiente función que implementa el Método de Jacobi:
 
 \begin{align*}
-    \text{\textit{jacobi}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector}_b}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
+    \text{\textit{jacobi}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector} k}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
     \longrightarrow\ \text{\textit{vector}}_x
 \end{align*}
+
 
 donde n es un natural. \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y \textit{t} $\geq$ 0 representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
@@ -83,7 +84,7 @@ donde n es un natural. \textbf{A} es una matriz con elementos distintos a cero e
 Definamos la siguiente función que implementa el Método de Gauss-Seidel:
 
 \begin{align*}
-    \text{\textit{gauss_seidel}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector}_b}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
+    \text{\textit{gauss\_seidel}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector} k}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
     \longrightarrow\ \text{\textit{vector}}_x
 \end{align*}
 
