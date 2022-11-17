@@ -80,6 +80,7 @@ void IO::skip_lines(ifstream &file, size_t n) {
 //
 
 pair<size_t, size_t> IO::_shape(ifstream &file) {
+    // requiere ifstream en formato binary
     auto pos = file.tellg();
     string _line;
     size_t n {}, m {};

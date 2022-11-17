@@ -21,6 +21,8 @@ DenseVector aleatorio(size_t n, std::pair<int, int> range={INT32_MIN, INT32_MAX}
     }
     return res;
 }
+
+
 DenseVector normalizar(const DenseVector &v) {
     double n = sqrt(v.dot(v));
     return abs(n) < EPSILON ? v : v / n;
@@ -33,8 +35,9 @@ llong min(llong a, llong b) {
 
 
 
+
 //
-// METODOS ITERATIVOS
+// METODOS
 //
 
 DenseVector metnum::gauss_seidel(RowMatrix &A, DenseVector &b, double tol, size_t iter) {
@@ -92,8 +95,10 @@ void metnum::eliminacion_gaussiana(RowMatrix &A, DenseVector &b, double tol) {
     //      b.size() == A.cols() == A.rows()
     llong n = A.size();
     for (int i = 0; i < n-1; ++i) {
+
         double mii = A[i].coeff(i);
         for (int j = i+1; j < n; ++j) {
+        
             double mij = A[j].coeff(i) / mii;
             if (abs(mij) < tol) continue;
 
