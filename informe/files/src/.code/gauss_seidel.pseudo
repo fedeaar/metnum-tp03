@@ -1,0 +1,29 @@
+proc jacobi(in A: matriz<n, n>, in b: vector, in q: Nat, in t: Real) {
+
+    x := aleatorio(n)   // un vector aleatorio no nulo
+    
+    i := 0
+    while i < q and $||$z$||_2$ >= t {
+
+        y := x
+        j := 0
+        while j < n {
+
+            s := 0
+            k := 0
+            while k < n {
+
+                if k != j {
+                    s := s + A[j][k] * x[k]
+                } 
+                k := k + 1
+            } 
+            x[j] := (b[j] - s) / A[j][j]
+            j := j + 1
+        } 
+        z := x - y
+        i := i + 1
+    }
+    
+    return x
+}
