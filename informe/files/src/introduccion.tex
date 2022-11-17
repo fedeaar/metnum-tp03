@@ -18,7 +18,7 @@ Como esquema básico, dado un $x^{(0)}$ inicial, se define de manera genérica u
     \rho(\mathbf{T}) = max\{|\lambda|\ :\ \lambda \: \text{\textit{autovalor de} \textbf{T}}\}\ <\ 1
 \end{equation}
 
-\vspace{1em}
+\vspace{3em}
 En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gauss-Seidel} para la resolución de sistemas $\mathbf{A}x = b$. Estos descomponen a la matriz \textbf{A} de la siguiente forma: 
 
 \begin{equation}
@@ -28,21 +28,25 @@ En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gaus
 \vspace{1em}
 \noindent donde $\mathbf{D}$ es la diagonal de $\mathbf{A}$, $\mathbf{L}$ contiene los elementos negados por debajo de la misma y $\mathbf{U}$ los elementos negados por encima. Luego, los esquemas para ambos métodos iterativos son los siguientes:
 
-\vspace{2em}
-\noindent\textsc{Método de Jacobi}.
+\vspace{1em}
+\begin{center}
+    \textit{Método de Jacobi}
+\end{center}
 
 \begin{equation} \label{jacobi}
     x^{(k+1)} = \textbf{D}^{-1} (\textbf{L} + \textbf{U}) x^{(k)} + \textbf{D}^{-1} b 
 \end{equation}
 
 \vspace{2em}
-\noindent\textsc{Método de Gauss-Seidel}.
+\begin{center}
+    \textit{Método de Gauss-Seidel}
+\end{center}
 
 \begin{equation}\label{gauss-seidel}
     x^{(k+1)} = (\mathbf{D} - \mathbf{L})^{-1} \mathbf{U} x^{(k)} + (\mathbf{D} - \mathbf{L})^{-1} b
 \end{equation}
 
-\vspace{2em}
+\vspace{1em}
 Se puede demostrar que, de converger, ambos métodos lo harán a una solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
 
 
