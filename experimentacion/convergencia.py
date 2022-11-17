@@ -72,7 +72,7 @@ def medir_errores():
         for test in TESTS:
 
             in_file = TESTS_DIR + test + ".txt"
-            p, x    = IO.read_out(in_file + ".out")
+            p, xe   = IO.read_out(in_file + ".out")
 
             _, _, W = IO.read_in(in_file)
             A = utils.W_to_A(W, p)
@@ -83,7 +83,7 @@ def medir_errores():
 
                     # error absoluto
                     res_file = DIR_OUT + f"{test}_m{metodo}_i{k}" + ".out"
-                    _p, xe = IO.read_out(res_file)
+                    _p, x = IO.read_out(res_file)
 
                     assert(abs(p - _p) < 1e-4)
 
@@ -91,8 +91,8 @@ def medir_errores():
                     error_max = np.linalg.norm(x - xe, np.inf)
 
                     # error relativo
-                    Ax = A @ xe.T
-                    error_rel = np.linalg.norm(Ax - xe, 1)
+                    Ax = A @ x.T
+                    error_rel = np.linalg.norm(Ax - x, 1)
                     
                     cols = FMT_COLS.format(test, metodo, k, 
                                            error_abs, error_rel, error_max)
@@ -119,4 +119,5 @@ if __name__ == "__main__":
         x = test_data.n_iter
         y = test_data.error_abs
         hue = test_data.metodo
-        utils.graficar(x, y, hue, "iteraciones", "error absoluto", save_as, log=True)
+        log = np.any(y > 0)
+        utils.graficar(x, y, hue, "iteraciones", "error absoluto", save_as, log=log)
