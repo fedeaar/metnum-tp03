@@ -1,17 +1,74 @@
+% === INTRO === %
+
+\vspace{1em}
+\subsection{Métodos iterativos}
+Los \textit{métodos iterativos} son procedimientos que nos permiten resolver algunos sistemas de ecuaciones lineales del tipo $\mathbf{A}x = b$. Contrario a los \textit{métodos exactos} ---como la \textit{Eliminación Gaussiana}--- que obtienen el resultado en un número finito de pasos, los métodos iterativos generan una sucesión $\{ x^{(k)} \}_{k \in \mathbb{N}_0}$ que, de converger, lo hace a la solución del sistema.
+
+\vspace{1em}
+Como esquema básico, dado un $x^{(0)}$ inicial, se define de manera genérica una sucesión iterativa  $\{ x^{(k)} \}_{k \in \mathbb{N}_0}$ de la siguiente manera:
+
+\begin{equation}\label{sucesion}
+    x^{(k+1)} = \mathbf{T}x^{(k)} + c
+\end{equation}
+
+\vspace{1em}
+\noindent donde $\mathbf{T}$ es nuestra matriz de iteración y $c$ es un vector. En particular, $x^{(k)}$ va a converger a la solución de un sistema particular, para cualquier vector $x^{(0)}$ inicial, si y sólo si el radio espectral de la matriz de iteración \textbf{T} es menor a 1. Es decir:
+
+\begin{equation}\label{espectral}
+    \rho(\mathbf{T}) = max\{|\lambda|\ :\ \lambda \: \text{\textit{autovalor de} \textbf{T}}\}\ <\ 1
+\end{equation}
+
+\vspace{1em}
+En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gauss-Seidel} para la resolución de sistemas $\mathbf{A}x = b$. Estos descomponen a la matriz \textbf{A} de la siguiente forma: 
+
+\begin{equation}
+    \mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}
+\end{equation}
+
+\vspace{1em}
+\noindent donde $\mathbf{D}$ es la diagonal de $\mathbf{A}$, $\mathbf{L}$ contiene los elementos negados por debajo de la misma y $\mathbf{U}$ los elementos negados por encima. Luego, los esquemas para ambos métodos iterativos son los siguientes:
+
+\vspace{2em}
+\noindent\textsc{Método de Jacobi}.
+
+\begin{equation} \label{jacobi}
+    x^{(k+1)} = \textbf{D}^{-1} (\textbf{L} + \textbf{U}) x^{(k)} + \textbf{D}^{-1} b 
+\end{equation}
+
+\vspace{2em}
+\noindent\textsc{Método de Gauss-Seidel}.
+
+\begin{equation}\label{gauss-seidel}
+    x^{(k+1)} = (\mathbf{D} - \mathbf{L})^{-1} \mathbf{U} x^{(k)} + (\mathbf{D} - \mathbf{L})^{-1} b
+\end{equation}
+
+\vspace{2em}
+Se puede demostrar que, de converger, ambos métodos lo harán a una solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
+
+
+
+
+
+% === IMPLEMENTACION === %
+
+\vspace{2em}
+\subsection{Implementación}
+
+
 % rep matrices
-\subsection{Representación de matrices}
+\subsubsection{Representación de matrices}
 
 
 % jacobi
 \vspace{2em}
-\subsection{Método de Jacobi}
+\subsubsection{Método de Jacobi}
 
 
 % gauss seidel
 \vspace{2em}
-\subsection{Método de Gauss-Seidel}
+\subsubsection{Método de Gauss-Seidel}
 
 
 % gauss elim
 \vspace{2em}
-\subsection{Eliminación Gaussiana}
+\subsubsection{Eliminación Gaussiana}
