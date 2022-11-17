@@ -9,7 +9,9 @@ grupo 18 - Arienti, Vekselman, Lakowsky, Kovo
 
 El repositorio cuenta con los siguientes archivos y carpetas:
 
-- 'implementacion' - El código fuente para la solución propuesta, incluye los casos de test provistos por la cátedra.
+- 'catedra' -  Los archivos fuente ys casos de test provistos por la cátedra.
+
+- 'implementacion' - El código fuente para la solución propuesta.
 
 - 'experimentos' - El material correspondiente a todos los experimentos mencionados en el informe. Incluye scripts y archivos resultado. Se omitieron los archivos intermedios, los mismo se pueden regenerar a partir de los scripts.
 
@@ -60,18 +62,18 @@ El ejecutable permite trabajar con los siguientes parámetros.
 
 Obligatorios (deben estar en orden):
 
-- `*` (string): fuente del archivo de entrada. El mismo debe estar formateado como una lista de adyacencia (con ' ' como delimitador). Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
+- `*` (string): fuente del archivo de entrada. El mismo debe contener una lista de adjacencia (delimitada por ' ') con el siguiente encabezado: la cantidad de vértices (línea uno) y la cantidad de aristas (línea dos). Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
 
 - `*` [0, 1): valor p.
 
 
 Opcionales:
 
-- `-m`: método a utilizar. `EG` (eliminación gaussiana), `GS` (gauss-siedel) ó  `J` (jacobi). Por default `EG`. Ejemplo de uso: `-m GS`. 
+- `-m`: método a utilizar. `EG` (eliminación gaussiana), `GS` (gauss-seidel) ó  `J` (jacobi). Por default `EG`. Ejemplo de uso: `-m GS`. 
 
-- `-tol`: tolerancia mínima de cambio entre pasos consecutivos a partir de la que una solución se considera válida. Por default 1e-4. Aplica sólo para `-m GS` y `-m J`. Ejemplo de uso: `-tol 1e-10`.
+- `-tol`: Se define acorde a `-m`. Si `GS` ó `J`, entonces refiere a la tolerancia mínima de cambio entre pasos consecutivos a partir de los que una solución se considera válida. Si `EG`, refiere al mínimo valor a considerar no nulo dentro de la matriz a triangular. Por default 1e-4. Ejemplo de uso: `-tol 1e-6`.
 
-- `-iter`: máxima cantidad de iteraciones a realizar. Por default 1e5. Aplica sólo para `-m GS` y `-m J`. Ejemplo de uso: `-iter 1e6`.
+- `-iter`: máxima cantidad de iteraciones a realizar. Por default 1e5. Aplica sólo para `GS` y `J`. Ejemplo de uso: `-iter 1e6`.
 
 - `-o`: carpeta en la que se guardarán los archivos de salida. Por defecto, la misma donde se encuentra el ejecutable. Ejemplo de uso: `-o ../experimentos/`.
 
