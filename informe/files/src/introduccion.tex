@@ -2,7 +2,7 @@
 
 \vspace{1em}
 \subsection{Métodos iterativos}
-Los \textit{métodos iterativos} son procedimientos que nos permiten resolver algunos sistemas de ecuaciones lineales del tipo $\mathbf{A}x = b$. Contrario a los \textit{métodos exactos} ---como la \textit{Eliminación Gaussiana}--- que obtienen el resultado en un número finito de pasos, los métodos iterativos generan una sucesión $\{ x^{(k)} \}_{k \in \mathbb{N}_0}$ que, de converger, lo hace a la solución del sistema.
+Los \textit{métodos iterativos} son procedimientos que nos permiten resolver algunos sistemas de ecuaciones lineales del tipo $\mathbf{A}x = b$. Contrario a los \textit{métodos exactos} ---como la \textit{Eliminación Gaussiana}--- que obtienen su resultado en un número finito de pasos, los métodos iterativos generan una sucesión $\{ x^{(k)} \}_{k \in \mathbb{N}_0}$ que, de converger, lo hace a la solución del sistema.
 
 \vspace{1em}
 Como esquema básico, dado un $x^{(0)}$ inicial, se define de manera genérica una sucesión iterativa  $\{ x^{(k)} \}_{k \in \mathbb{N}_0}$ de la siguiente manera:
@@ -12,7 +12,7 @@ Como esquema básico, dado un $x^{(0)}$ inicial, se define de manera genérica u
 \end{equation}
 
 \vspace{1em}
-\noindent donde $\mathbf{T}$ es nuestra matriz de iteración y $c$ es un vector. En particular, $x^{(k)}$ va a converger a la solución de un sistema particular, para cualquier vector $x^{(0)}$ inicial, si y sólo si el radio espectral de la matriz de iteración \textbf{T} es menor a 1. Es decir:
+\noindent donde $\mathbf{T}$ se denomina \textit{matriz de iteración} y $c$ es un vector. En particular, $x^{(k)}$ va a converger a la solución de un sistema particular, para cualquier vector $x^{(0)}$ inicial, si y sólo si el radio espectral de la matriz de iteración \textbf{T} es menor a 1. Es decir:
 
 \begin{equation}\label{espectral}
     \rho(\mathbf{T}) = max\{|\lambda|\ :\ \lambda \: \text{\textit{autovalor de} \textbf{T}}\}\ <\ 1
@@ -58,41 +58,62 @@ Se puede demostrar que, de converger, ambos métodos lo harán a una solución d
 \vspace{2em}
 \subsection{Implementación}
 
-
-% rep matrices
-\subsubsection{Representación de matrices}
-
-
 % jacobi
 \vspace{2em}
 \subsubsection{Método de Jacobi}
-Definamos la siguiente función que implementa el Método de Jacobi:
+Definamos la siguiente aridad para una implementación posible del Método de Jacobi:
 
 \begin{align*}
-    \text{\textit{jacobi}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector} k}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
-    \longrightarrow\ \text{\textit{vector}}_x
+    \text{\textit{jacobi}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector}}_n\ \text{b}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
+    \longrightarrow\ \text{\textit{vector}}_n\ \text{x}
 \end{align*}
 
+\vspace{1em}
+\noindent donde $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y \textit{t} $\geq$ 0 representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
-donde n es un natural. \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y \textit{t} $\geq$ 0 representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
+\vspace{1em}
+Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho(\mathbf{D}^{-1}(\mathbf{L} + \mathbf{U})) < 1$, entonces el método de Jacobi convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo:
 
+\vspace{1em}
 \lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Jacobi.}]{files/src/.code/jacobi.pseudo}
 
+\vspace{1em}
+Notamos que la complejidad del algoritmo es del orden de $\Theta(q * n^2)$ en el peor caso. En consecuencia, se debe precisar con cuidado la cantidad de iteraciones a realizar para que el factor $q$ sea despreciable. Del mismo modo, una selección de $t$ correcta, acorde al uso, puede resultar en mejoras considerables en la complejidad promedio. % Como se precisará más adelante, notamos en nuestra experimentación que para $n \leq 3000$ bastó de manera holgada $q = 100$ para lograr un error absoluto $L_1$ menor a $10^{-5}$.
+
+
+
+
 % gauss seidel
-\vspace{2em}
+\vspace{2em} 
 \subsubsection{Método de Gauss-Seidel}
-Definamos la siguiente función que implementa el Método de Gauss-Seidel:
+De manera similar, definimos la siguiente función que implementa el Método de Gauss-Seidel:
 
 \begin{align*}
-    \text{\textit{gauss\_seidel}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector} k}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
-    \longrightarrow\ \text{\textit{vector}}_x
+    \text{\textit{gauss\_seidel}}&:\ \text{\textit{matriz}}_{n \times n}\ \mathbf{A}\ \times\ \text{\textit{vector}}_n\ \text{b}\ \times\ \text{\textit{nat} q}\ \times\ \text{\textit{real} t}\
+    \longrightarrow\ \text{\textit{vector}}_n\ \text{x}
 \end{align*}
 
-donde n es un natural. \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y \textit{t} $\geq$ 0 representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
+\vspace{1em}
+\noindent donde, nuevamente, $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y  $t \geq 0$  representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
+\vspace{1em}
+Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, similar al anterior:
+
+\vspace{1em}
 \lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Gauss-Seidel.}]{files/src/.code/gauss_seidel.pseudo}
+
+\vspace{1em}
+Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar con la complejidad de estos métodos. Por un lado, se utiliza un vector inicial aleatorio para reducir la ineficiencia del algorítmo sobre entradas que causarían un comportamiento de peor caso, a cuestas de que una ejecución particular pueda ahora resultar sub-óptima de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas para definir un quiebre temprano en la iteración externa ---por similitud--- en función del parámetro $t$.
+
+
 
 
 % gauss elim
 \vspace{2em}
 \subsubsection{Eliminación Gaussiana}
+
+
+
+
+% rep matrices
+\subsubsection{Representación de matrices}
