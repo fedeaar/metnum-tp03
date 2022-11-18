@@ -118,6 +118,6 @@ if __name__ == "__main__":
         test_data = df.query(f"test == '{test}'")
         x = test_data.n_iter
         y = test_data.error_abs
-        hue = test_data.metodo
+        hue = test_data.metodo.replace({"GS":"Gauss-Seidel", "J": "Jacobi"})
         log = np.any(y > 0)
         utils.graficar(x, y, hue, "iteraciones", "error absoluto", save_as, log=log)
