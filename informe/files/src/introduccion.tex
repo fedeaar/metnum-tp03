@@ -81,7 +81,7 @@ Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que 
 Notamos que la complejidad del algoritmo es del orden de $\Theta(q * n^2)$ en el peor caso. En consecuencia, se debe precisar con cuidado la cantidad de iteraciones a realizar para que el factor $q$ sea despreciable. Del mismo modo, una selección de $t$ correcta, acorde al uso, puede resultar en mejoras considerables en la complejidad promedio. % Como se precisará más adelante, notamos en nuestra experimentación que para $n \leq 3000$ bastó de manera holgada $q = 100$ para lograr un error absoluto $L_1$ menor a $10^{-5}$.
 
 
-
+    
 
 % gauss seidel
 \vspace{2em} 
@@ -97,13 +97,13 @@ De manera similar, definimos la siguiente función que implementa el Método de 
 \noindent donde, nuevamente, $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y  $t \geq 0$  representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
 \vspace{1em}
-Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, similar al anterior:
+Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, también con complejidad del orden de $\Theta(q * n^2)$ en el peor caso:
 
 \vspace{1em}
 \lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Gauss-Seidel.}]{files/src/.code/gauss_seidel.pseudo}
 
 \vspace{1em}
-Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar con la complejidad de estos métodos. Por un lado, se utiliza un vector inicial aleatorio para reducir la ineficiencia del algorítmo sobre entradas que causarían un comportamiento de peor caso, a cuestas de que una ejecución particular pueda ahora resultar sub-óptima de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas para definir un quiebre temprano en la iteración externa ---por similitud--- en función del parámetro $t$.
+Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar con la complejidad de estos métodos. Por un lado, se utiliza un vector inicial aleatorio para reducir la ineficiencia del algorítmo sobre entradas que causarían un comportamiento de peor caso, a cuestas de que una ejecución particular pueda ahora resultar sub-óptima de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas para definir un quiebre temprano en la iteración externa ---por similitud--- en función del parámetro $t$. 
 
 
 
