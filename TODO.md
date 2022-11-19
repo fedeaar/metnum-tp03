@@ -1,13 +1,17 @@
-TODO:
-- [x] MANU: escribir en latex implementacion GS y J
-- [ ] FEDE: escribir en latex sobre convergencia
-- [ ] NAT: omparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
-	- armarse un script de python para evaluar y graficar
-	- escribir en latex
-	- escribir en latex implementacion EG y rep. matriz
+### TODO
 
-- [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
+Implementacion:
 
+- [x] MANU: implementar el metodo de jacobi.
+- [x] MANU: implementar el metodo de Gauss-Seidel.
+- [x] NAT: 	implementar eliminación gaussiana.
+- [x] FEDE: IO
+
+Expirementos:
+
+- [x] FEDE: graficar la convergencia para los casos de la cátedra con J y GS.
+- [ ] NAT: comparar tiempo de ejecución etre EG, J y GS con los tests.
+- [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta, para familias (algunos):
 	- red sumidero
 	- uno a todos
 	- nada (?
@@ -15,14 +19,14 @@ TODO:
 	- todo con todo
 	- ciclica
 	- aleatorios
-- armarse un script al respecto
-- escribir en latex
 
-Usar la libreria "EIGEN" para matrices ralas:
-- [x] FEDE: IO
-- [x] MANU: implementar en c++ el metodo de jacobi.
-- [x] MANU: implementar en c++ el metodo de Gauss-Seidel.
-- [x] NAT: implementar eliminación gaussiana.
-- [x] FEDE: graficar la convergencia para los casos de la cátedra con J y GS (iteracion eje x, error eje y)
-- [x] MANU: intro teorica latex
+Informe:
+
 - [x] FEDE: resumen latex
+- [x] MANU: intro teorica latex
+- [x] MANU: escribir en latex implementacion GS y J
+- [] NAT: escribir en latex implementacion EG y rep. matrices
+- [x] FEDE: escribir en latex sobre convergencia
+- [] NAT: escribir en latex sobre tiempo ejecución GS, J, EG.
+- [] BRI: escribir en latex sobre tiempo de ejecución en función de la densidad.
+- [] escribir conclusion
