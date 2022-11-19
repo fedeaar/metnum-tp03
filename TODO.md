@@ -7,15 +7,16 @@ TODO:
 	- escribir en latex implementacion EG y rep. matriz
 
 - [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
-		- red sumidero
-		- uno a todos
-		- nada (?
-		- viborita
-		- todo con todo
-		- ciclica
-		- aleatorios
-	- armarse un script al respecto
-	- escribir en latex
+
+	- red sumidero
+	- uno a todos
+	- nada (?
+	- viborita
+	- todo con todo
+	- ciclica
+	- aleatorios
+- armarse un script al respecto
+- escribir en latex
 
 Usar la libreria "EIGEN" para matrices ralas:
 - [x] FEDE: IO
