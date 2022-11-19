@@ -97,13 +97,16 @@ De manera similar, definimos la siguiente función que implementa el Método de 
 \noindent donde, nuevamente, $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y  $t \geq 0$  representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
 \vspace{1em}
-Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, también con complejidad del orden de $\Theta(q * n^2)$ en el peor caso:
+Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, similar al anterior:
 
 \vspace{1em}
 \lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Gauss-Seidel.}]{files/src/.code/gauss_seidel.pseudo}
 
 \vspace{1em}
-Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar con la complejidad de estos métodos. Por un lado, se utiliza un vector inicial aleatorio para reducir la ineficiencia del algorítmo sobre entradas que causarían un comportamiento de peor caso, a cuestas de que una ejecución particular pueda ahora resultar sub-óptima de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas para definir un quiebre temprano en la iteración externa ---por similitud--- en función del parámetro $t$. 
+\noindent Nuevamente, su complejidad temporal es $\Theta(q * n^2)$ en el peor caso.
+
+\vspace{1em}
+Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar a reducir su complejidad temporal. Por un lado, se utiliza un vector inicial aleatorio con norma $L_2 = 1$. Esto nos permite evitar aquellas entradas que causan un comportamiento de peor caso de manera determinística, a cuestas que una ejecución particular del algoritmo pueda resultar  menos eficiente de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas, como medida de similitud, para definir un quiebre temprano en la iteración externa de los algoritmos en función del parámetro $t$. 
 
 
 
