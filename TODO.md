@@ -10,7 +10,7 @@ Implementacion:
 Expirementos:
 
 - [x] FEDE: graficar la convergencia para los casos de la cátedra con J y GS.
-- [ ] NAT: comparar tiempo de ejecución etre EG, J y GS con los tests.
+- [ ] NAT: comparar tiempo de ejecución etre EG, J y GS.
 - [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta, para familias (algunos):
 	- red sumidero
 	- uno a todos
