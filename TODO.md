@@ -1,12 +1,12 @@
 TODO:
 - [x] MANU: escribir en latex implementacion GS y J
-- [] FEDE: escribir en latex sobre convergencia
-- [] NAT: omparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
+- [ ] FEDE: escribir en latex sobre convergencia
+- [ ] NAT: omparar tiempo de ejecución etre EG, J y GS (dentro de una misma rep) con los tests (barras)
 	- armarse un script de python para evaluar y graficar
 	- escribir en latex
 	- escribir en latex implementacion EG y rep. matriz
 
-- [] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
+- [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta: 
 		- red sumidero
 		- uno a todos
 		- nada (?
