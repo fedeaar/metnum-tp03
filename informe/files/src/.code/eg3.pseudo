@@ -1,0 +1,36 @@
+// A de tipo vector<SparseVector>
+n = A.size();
+for (i = 0; i < n-1; ++i) {
+    mii = A[i].coeff(i);
+    for (j = i+1; j < n; ++j) {
+        mij = A[j].coeff(i) / mii;
+        if (abs(mij) < epsilon) continue;
+
+        SparseVector new_Bj(n);
+        new_Bj.reserve(min(A[j].nonZeros() + A[i].nonZeros() - 1, n));
+
+        RowIterator it_fila_i(A[i]);
+        RowIterator it_fila_j(A[j]);
+        ++it_fila_j; 
+        ++it_fila_i;
+
+        while (it_fila_i || it_fila_j) {
+            if (!it_fila_i || (it_fila_j && it_fila_j.index() < it_fila_i.index())) {
+                new_Bj.insertBack(it_fila_j.index()) = it_fila_j.value();
+                ++it_fila_j;
+            } else {
+                newVal = -it_fila_i.value() * mij;
+                if (it_fila_j && it_fila_j.index() == it_fila_i.index()) {
+                    newVal += it_fila_j.value();
+                    ++it_fila_j;
+                }
+                if (abs(newVal) > epsilon) {
+                    new_Bj.insertBack(it_fila_i.index()) = newVal;
+                }
+                ++it_fila_i;
+            }
+        }
+        A[j] = new_Bj;
+        b[j] = b[j] - b[i] * mij;
+    }
+}

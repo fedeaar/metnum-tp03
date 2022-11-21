@@ -12,9 +12,19 @@ Por lo que dedujimos que en caso de tener un "Vector<SparseVector>", donde podam
 
 *Inserte pseudo eg2*
 
-Definitivamente esta estrategia es superior ya que resuelve correctamente el test de 15 segundos en 4 segundos y el de 30 en 10. 
-Pero todavía no estabamos del todo conformes con el resultado asique decidimos implementar la resta de vectores por nuestra cuenta, obteniendo el código final que entregamos, que corre el test de 15 segundos en aproximadamente 2 y el de 30 en 4.
+Definitivamente esta estrategia es superior ya que resuelve correctamente el test de 15 segundos en aproximadamente 2.6 segundos y el de 30 en 4.7. Este algoritmo 2.5 el de 15 y 5 el de 30
 
 Cabe destacar que para el tp1 hicimos una implementación muy similar con Vector<pair> pero era bastante mas lenta que la versión final usando Eigen, probablemente se deba al manejo de memoria y la velocidad de los iteradores de la librería mencionada.
 
-Un comentario necesario es que en todos los testeos usamos 
+Un comentario necesario es que los tiempos mencionados fueron calculados con Epsilon = 1e-5 ya que modifar esta variable cambia considerablemente la velocidad del algoritmo. Por ejemplo con Epsilon = 1e-4 el algoritmo termina en menos de 1 segundo ambos tests, pero con Epsilon = 1e-6, demora 4 en el de 15 y 10 en el de 30. No profundizaremos en como varía la velocidad respecto al Epsilon.
+
+---------------------------------------------------------------------------------------------------------------------
+Para comenzar el análisis sobre el tiempo de ejecución que demora cada uno de los métodos, decidimos estudiar como se comportan estos frente a los test de la cátedra que ya teníamos. A partir de los resultados logramos obtener mayor claridad sobre como se desenvolvían los métodos en distintos casos y así poder desarrollar de manera fluida los tests más profundos.
+
+Metodología. 
+Inicialmente se definio epsilon = 1e-6. Para cada uno de los test de la cátedra se realizó el cálculo de pagerank con el epsilon mencioniado para la eliminación gaussiana y se calculó ||x − res||1 donde x refiere a la verdadera solución y res al resultado que se obtuvo a partir de pagerank, cabe destacar que este es un proceso determinístico. 
+
+Por otro lado, para Jacobi y para Gauss-Seidel, realizamos un binary-search donde en cada paso alteramos la tolerancia y calculamos el resultado. Editamos los límites de la tolerancia concorde el error calculado es mayor o menor que el error usando PageRank. Al finalizar este procedimiento obtuvimos tolerancias tales que, al calcular el error de comparar las respuestas que conceden Jacobi y Gauss-Seidel con la original sea similar en orden de magnitud al error entre la respuesta que retorna PageRank y la original. De este modo podríamos realizar una comparación de tiempo de ejecución "justa", donde todos los métodos obtengan una respuesta con un error muy similar.
+
+Luego para cada Test realizamos el procedimiento para cada uno de los métodos teniendo en cuenta las consideraciones previamente mencionadas, y almacenamos el tiempo que demoró en terminar cada uno. Repetimos este paso 10 veces para atenuar las fluctuaciones de tiempo de ejecución que genera el computador y calculamos el promedio de cada Método. Los resultados se pueden ver en la siguiente Figura. 
+

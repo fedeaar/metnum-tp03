@@ -33,18 +33,18 @@ FMT_COLS    = "{0},{1},{2}\n"
 
 GRAFICOS    = DIR + "t-ejecucion_{test}.png"
 
-TOL_EG  = 1e-6
-EPSILON = 1e-7
+TOL_EG  = 1e-5
+EPSILON = 0.01
 #
 # VAR
 #
 
-REPS    = 100  
+REPS    = 10
 TESTS   = [x[:-4] for x in os.listdir(TESTS_DIR) if \
            os.path.isfile(TESTS_DIR + x) and x[-4:] == ".txt"]
 METODOS = ['GS', 'J','EG']
 STEP    = 1
-ITER    = 1
+ITER    = 1e8
 
 #
 # UTILS
@@ -53,90 +53,78 @@ ITER    = 1
 def correr_pagerank():
 
     for test in TESTS: 
+        print("--------------------------------")
+        print("==>", test)
         in_file = TESTS_DIR + test + ".txt"
         p, res_catedra = IO.read_out(in_file + ".out")
 
-        IO.run(filename=in_file, p_val=p, m='EG', tol=EPSILON, o=DIR_OUT, save_as=f"{test}_EG")
+        print("- Calculando error EG:")
+        IO.run(filename=in_file, p_val=p, m='EG', tol=TOL_EG, o=DIR_OUT, save_as=f"{test}_EG")
 
         _, res_eg = IO.read_out(DIR_OUT + f"{test}_EG" + ".out")
         error_eg = np.linalg.norm(res_catedra - res_eg, 1)
 
+        print("- Buscando tolerancia GS:")
         tol_gs = findCorrectTol(test, error_eg, 'GS')
+        print("- Buscando tolerancia J:")
         tol_j  = findCorrectTol(test, error_eg, 'J')
-        for rep in REPS:
-            IO.run(filename=in_file, p_val=p, m='EG', tol=EPSILON, o=DIR_OUT, save_as=f"{test}_EG_{rep}", time=True)
-            IO.run(filename=in_file, p_val=p, m='GS', tol=tol_gs,  o=DIR_OUT, save_as=f"{test}_GS_{rep}", time=True)
-            IO.run(filename=in_file, p_val=p, m='J',  tol=tol_j,   o=DIR_OUT, save_as=f"{test}_J_{rep}",  time=True)
+
+        for rep in range(REPS):
+            print("- Corriendo iteración:", str(rep+1) + '/' + str(REPS))
+            IO.run(filename=in_file, p_val=p, m='EG', tol=TOL_EG, o=DIR_OUT, save_as=f"{test}_EG_{rep}", time=True)
+            IO.run(filename=in_file, p_val=p, m='GS', tol=tol_gs,  o=DIR_OUT, save_as=f"{test}_GS_{rep}", time=True, niter=ITER)
+            IO.run(filename=in_file, p_val=p, m='J',  tol=tol_j,   o=DIR_OUT, save_as=f"{test}_J_{rep}",  time=True, niter=ITER)
 
 
-  
 
 def findCorrectTol(test, error_eg, metodo):
     in_file = TESTS_DIR + test + ".txt"
     p, res_catedra = IO.read_out(in_file + ".out")
 
-    tol_i, tol_j = 1e-2, 1e-8
-    while tol_i + EPSILON < tol_j :
+    tol_i, tol_j = 0, 1
+    while tol_i < tol_j :
         tol_k = (tol_i + tol_j) / 2
+
         IO.run(filename=in_file, p_val=p, m=metodo, tol=tol_k, o=DIR_OUT, save_as=f"{test}_{metodo}")
         _, res_metodo = IO.read_out(DIR_OUT + f"{test}_{metodo}" + ".out")
-        error_gs = np.linalg.norm(res_catedra - res_metodo, 1)   
-        if(abs(error_gs - error_eg) < EPSILON):
+        error = np.linalg.norm(res_catedra - res_metodo, 1)   
+        
+        if(abs(error - error_eg) < EPSILON * error_eg): 
             return tol_k
-        elif(error_gs > error_eg):
-            tol_i = tol_k
-        else:
+        elif(error > error_eg):
             tol_j = tol_k
+        else:
+            tol_i = tol_k
             
-    return tol_i
+    return tol_j
 
 
 def medir_tiempos():
-
     with open(RESULTADOS, 'a', encoding="utf-8") as file:
-
         for test in TESTS:
-
-            in_file = TESTS_DIR + test + ".txt"
-            p, res_catedra = IO.read_out(in_file + ".out")
-
-
+            print("--------------------------------")
+            print("==>", test)            
             for metodo in METODOS:
-
-                for k in range(0, ITER, STEP):
-
-                    # error absoluto
-                    res_file = DIR_OUT + f"{test}_m{metodo}_i{k}" + ".out"
-                    _p, x = IO.read_out(res_file)
-
-                    assert(abs(p - _p) < 1e-4)
-
-                    error_abs = np.linalg.norm(x - xe, 1)
-                    error_max = np.linalg.norm(x - xe, np.inf)
-
+                total = 0
+                for rep in range(REPS):
+                    time_file = DIR_OUT + f"{test}_{metodo}_{rep}" + ".time"
+                    t = IO.read_time(time_file)
+                    total += t.microseconds[1]
                     
-                    cols = FMT_COLS.format(test, metodo, k, 
-                                           error_abs, error_rel, error_max)
-                    file.write(cols)
+                cols = FMT_COLS.format(test, metodo, total/REPS)
+                file.write(cols)
 
-
-
-
-
-
-
-
-
+                print("-", metodo + ":", str(float((total/REPS)/1e6)), "segundos") 
 
 
 if __name__ == "__main__":
 
     correr_pagerank()
 
-    # IO.createCSV(RESULTADOS, COLS)
-    # medir_errores()
+    IO.createCSV(RESULTADOS, COLS)
+    medir_tiempos()
 
-    # df = pd.read_csv(RESULTADOS)
+    df = pd.read_csv(RESULTADOS)
 
     # for test in df.test.unique():        
         

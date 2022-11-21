@@ -1,9 +1,22 @@
-% CASOS TEST
 \subsection{Casos de test}
 
+Para comenzar el análisis sobre el tiempo de ejecución que demora cada uno de los métodos, decidimos inicialmente estudiar como se comportan estos frente a los test de la cátedra. A partir de los resultados logramos obtener mayor claridad sobre como se desenvolvían los métodos en distintos casos. Para luego poder generar con una intuición orientada los tests más profundos.
+
+\vspace{2em}
+\noindent\textsc{Metodología}. Inicialmente se definio un $epsilon = 10^{-6}$. Para cada uno de los test de la cátedra se realizó el cálculo de pagerank con el epsilon mencioniado para la eliminación gaussiana y se calculó $||x - res||_1$ donde $x$ refiere a la verdadera solución y $res$ al resultado que se obtuvo a partir de pagerank. Cabe destacar que este es un proceso determinístico. 
+
+\vspace{2em}
+
+Por otro lado, para el \textit{método de Jacobi} y para el \textit{método de Gauss-Seidel}, realizamos un binary-search donde en cada paso alteramos la tolerancia y calculamos el resultado. Editamos los límites de la tolerancia concorde el error calculado es mayor o menor que el error usando PageRank. Al finalizar este procedimiento obtuvimos tolerancias tales que, al calcular el error de comparar las respuestas que conceden \textit{Jacobi} y \textit{Gauss-Seidel} con la original, sea similar, en orden de magnitud, al error entre la respuesta que retorna PageRank y la original. De este modo podríamos realizar una comparación de tiempo de ejecución ``justa", donde todos los métodos obtengan una respuesta con un error muy similar.
+
+\vspace{2em}
+
+Luego para cada test, teniendo en cuenta las consideraciones previamente mencionadas, realizamos el cálculo 1 vez por método. Repetimos este paso 10 veces para atenuar las fluctuaciones de tiempo de ejecución que genera el computador y calculamos el promedio de cada método. Los resultados se pueden ver en la siguiente Figura. 
+
+\vspace{2em}
+*Inserte Gráfico de barras*
+Como se puede apreciar en el gráfico, el \textit{método de Gauss-Seidel} y el \textit{método de Jacobi}, son considerablemente más rápidos cuando el tamaño de la matriz es grande a pesar de que el resultado obtenido es de la misma calidad para los tres métodos en todos los casos de test.
 
 % DENSIDADES
 \vspace{2em}
 \subsection{En función de la densidad del grafo de entrada}
-
-

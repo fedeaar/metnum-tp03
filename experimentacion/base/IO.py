@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess as sub
 import numpy as np
-
+import pandas as pd
 
 # GLOBAL
 EXE_PATH = '../build/tp3'      # si se compilo de otra manera, o con otro nombre, cambiar por la direccion correcta

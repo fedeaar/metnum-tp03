@@ -1,0 +1,34 @@
+Nuestra primer implementación "naive" de la eliminación gaussiana usando Eigen fue la siguiente:
+
+\vspace{1em}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo de la primer implementación de la Eliminación Gaussiana}]{files/src/.code/eg1.pseudo}
+
+\vspace{1em}
+A pesar de ser un código sencillo, creíamos que al usar las funciones de Eigen podríamos obtener ventaja en velocidad pero la hipótesis fue claramente refutada por los 3 minutos 13 segundos que demoró en terminar el test de 15 segundos.
+
+\vspace{1em}
+Observamos que la asignación de la línea 9 era una operación muy ineficiente. Esto tiene bastante sentido ya que SparseMatrix esta implementada usando CSR y por ende todos los elementos se encuentran contiguos en un único vector, entonces insertar y editar en el medio de este es un proceso costoso.
+ 
+\vspace{1em}
+Concluimos de la observación anterior que en caso de tener un $vector<SparseVector>$, donde podamos hacer reemplazos de una fila por otra considerablemente rápido, además de seguir aprovechando las operaciones optimizadas de Eigen, sería una buena opción. Teniendo esto en mente, probamos la siguiente implementación:
+
+\vspace{1em}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo de la segunda implementación de la Eliminación Gaussiana}]{files/src/.code/eg2.pseudo}
+
+\vspace{1em}
+Definitivamente esta estrategia es superior ya que resuelve correctamente el test de 15 segundos en aproximadamente 2.5 segundos y el de 30 en 5.
+
+% \vspace{1em}
+% Otra optimización que consideramos fue implementar la resta realizada en la línea 9 del algoritmo. Usando los iteradores de Eigen y un vector auxiliar como se muestra en la siguiente figura.
+
+% \vspace{1em}
+% \lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo de la segunda implementación de la Eliminación Gaussiana}]{files/src/.code/eg3.pseudo}
+
+% \vspace{1em}
+% Esta implementación es un poco más rápida ya que corre el test de 15 en 2 segundos y el de 30 en 4, pero no nos parecio una diferencia tal que justifique la pérdida de claridad en el código, por lo que decidimos dejar la implementación anterior.
+
+\vspace{1em}
+Cabe destacar que para el tp1 hicimos una implementación muy similar, a la presentada, usando $vector<pair>$ como representación pero era bastante mas lenta que la versión final usando Eigen, probablemente se deba al manejo de memoria y la velocidad de los iteradores de la librería mencionada.
+
+\vspace{1em}
+Un comentario necesario es que los tiempos mencionados fueron calculados usando $Epsilon = 10^{-5}$. Esto es relevante ya que modificar esta variable cambia considerablemente la velocidad del algoritmo. Por ejemplo con $Epsilon = 10^{-4}$ el algoritmo termina en menos de 1 segundo ambos tests, pero con $Epsilon = 10^{-6}$, demora 4 segundos en el de 15 y 10 en el de 30. No profundizaremos en como varía la velocidad respecto al $Epsilon$.
