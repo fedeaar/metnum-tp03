@@ -1,0 +1,18 @@
+- ¿Por qué usamos vector<SparseVector> como representación de matrices?
+
+Nuestra primer implementación "naive" de la eliminación gaussiana usando Eigen fue la siguiente:
+
+*Inserte pseudo eg1*
+
+A pesar de ser un código sencillo, creíamos que al usar las funciones de Eigen podríamos obtener ventaja en velocidad pero la "hipótesis" fue claramente refutada por los 3 minutos 13 segundos que demoró en terminar el test de 15 segundos. 
+
+Observamos que la asignación de la línea 7 era una operación muy ineficiente. Esto tiene bastante sentido ya que SparseMatrix esta implementada usando CSR y por ende todos los elementos se encuentran contiguos en un único vector, entonces intentar insertar y editar en el medio de este es costoso.
+
+Por lo que dedujimos que en caso de tener un "Vector<SparseVector>", donde podamos hacer reemplazos de una fila por otra considerablemente rápido, además de seguir aprovechando las operaciones optimizadas de Eigen, sería una buena opción por lo modificamos la implementación incial de la siguiente manera:
+
+*Inserte pseudo eg2*
+
+Definitivamente esta estrategia es superior ya que resuelve correctamente el test de 15 segundos en 4 segundos y el de 30 en 10. 
+Pero todavía no estabamos del todo conformes con el resultado asique decidimos implementar la resta de vectores por nuestra cuenta, obteniendo el código final que entregamos, que corre el test de 15 segundos en aproximadamente 2 y el de 30 en 4.
+
+Cabe destacar que para el tp1 hicimos una implementación muy similar con Vector<pair> pero era bastante mas lenta que la versión final usando Eigen, probablemente se deba al manejo de memoria y la velocidad de los iteradores de la librería mencionada.

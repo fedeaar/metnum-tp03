@@ -1,0 +1,14 @@
+// A de tipo vector<SparseVector>
+n = A.size();
+for (i = 0; i < n-1; ++i) {
+
+    double mii = A[i].coeff(i);
+    for (j = i+1; j < n; ++j) {
+    
+        double mij = A[j].coeff(i) / mii;
+        if (abs(mij) < tol) continue;
+        
+        A[j] = (A[j] - A[i] * mij).pruned(1, 1e-6);
+        b[j] = b[j] - b[i] * mij;
+    }
+}

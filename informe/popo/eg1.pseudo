@@ -1,0 +1,11 @@
+// A de tipo SparseMatrix
+n = A.rows();
+for (i = 0; i < n-1; ++i) {
+    mii = A.coeff(i, i);
+    for(j = i+1; j < n; ++j){
+        mij = A.coeff(j, i) / mii;
+        if(mij == 0) continue;
+        A.row(j) = (A.row(j) - A.row(i) * mij).pruned(1, 1e-6);
+        b[j] = b[j] - b[i] * mij;
+    }
+}
