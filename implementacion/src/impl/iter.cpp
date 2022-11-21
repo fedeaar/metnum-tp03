@@ -95,40 +95,11 @@ void metnum::eliminacion_gaussiana(RowMatrix &A, DenseVector &b, double tol) {
     //      b.size() == A.cols() == A.rows()
     llong n = A.size();
     for (int i = 0; i < n-1; ++i) {
-
         double mii = A[i].coeff(i);
         for (int j = i+1; j < n; ++j) {
-        
             double mij = A[j].coeff(i) / mii;
             if (abs(mij) < tol) continue;
-
-            SparseVector new_Bj(n);
-            new_Bj.reserve(min(A[j].nonZeros() + A[i].nonZeros() - 1, n));
-            RowIterator it_fila_i(A[i]);
-            RowIterator it_fila_j(A[j]);
-            ++it_fila_j; // ya que el primer elemento sabemos que se convierte en 0
-            ++it_fila_i; // por lo que salteamos el primer elemento
-
-            while (it_fila_i || it_fila_j) {
-                if (!it_fila_i || (it_fila_j && it_fila_j.index() < it_fila_i.index())) {
-                    // si it fila_i > it_fila_j agrega el elem que no va a editar de la fila original
-                    new_Bj.insertBack(it_fila_j.index()) = it_fila_j.value();
-                    ++it_fila_j;
-                } else {
-                    // si entramos aca si o si se cumple it_fila_i valido
-                    double newVal = -it_fila_i.value() * mij;
-                    if (it_fila_j && it_fila_j.index() == it_fila_i.index()) {
-                        // si existe el elem it_fila_j entonces lo suma ya que sino es 0 y no afecta
-                        newVal += it_fila_j.value();
-                        ++it_fila_j;
-                    }
-                    if (abs(newVal) > tol) {
-                        new_Bj.insertBack(it_fila_i.index()) = newVal;
-                    }
-                    ++it_fila_i;
-                }
-            }
-            A[j] = new_Bj;
+            A[j] = (A[j] - A[i] * mij).pruned(1, tol);
             b[j] = b[j] - b[i] * mij;
         }
     }

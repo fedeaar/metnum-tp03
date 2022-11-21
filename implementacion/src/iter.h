@@ -13,7 +13,7 @@ namespace metnum {
     typedef Eigen::VectorXd DenseVector;
     typedef Eigen::SparseVector<double> SparseVector;
 
-    const double EPSILON = 9e-6;
+    const double EPSILON = 1e-6;
 
 
     DenseVector gauss_seidel(RowMatrix &A, DenseVector &b, double tol, size_t iter);
