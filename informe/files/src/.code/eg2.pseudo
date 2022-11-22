@@ -1,12 +1,18 @@
-// A de tipo vector<SparseVector>
-n = A.size();
-for (i = 0; i < n-1; ++i) {
-    double mii = A[i].coeff(i);
-    for (j = i+1; j < n; ++j) {
-        double mij = A[j].coeff(i) / mii;
-        if (abs(mij) < epsilon) continue;
+proc eliminacion_gaussiana(inout A: vector<SparseVector>, 
+                           inout b: vector, in $\varepsilon$: Real) {
+    
+    n = filas(A)
+    for (i = 0; i < n-1; ++i) {
 
-        A[j] = (A[j] - A[i] * mij).pruned(1, epsilon);
-        b[j] = b[j] - b[i] * mij;
+        mii = A[i].coeff(i)
+        for (j = i+1; j < n; ++j) {
+
+            mij = A[j].coeff(i) / mii
+            if (|mij| < $\varepsilon$) {
+                continue
+            }
+            A[j] = (A[j] - A[i] * mij).pruned(1, $\varepsilon$)
+            b[j] = b[j] - b[i] * mij
+        }
     }
 }

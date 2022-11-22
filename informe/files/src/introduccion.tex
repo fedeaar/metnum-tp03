@@ -12,7 +12,7 @@ Como esquema básico, dado un $x^{(0)}$ inicial, se define de manera genérica u
 \end{equation}
 
 \vspace{1em}
-\noindent donde $\mathbf{T}$ se denomina \textit{matriz de iteración} y $c$ es un vector. En particular, $x^{(k)}$ va a converger a la solución de un sistema particular, para cualquier vector $x^{(0)}$ inicial, si y sólo si el radio espectral de la matriz de iteración \textbf{T} es menor a 1. Es decir:
+\noindent donde $\mathbf{T}$ se denomina \textit{matriz de iteración} y $c$ es un vector. En particular, $x^{(k)}$ va a converger a la solución de un sistema, para cualquier vector $x^{(0)}$ inicial, si y sólo si el radio espectral de la matriz de iteración \textbf{T} es menor a 1. Es decir:
 
 \begin{equation}\label{espectral}
     \rho(\mathbf{T}) = max\{|\lambda|\ :\ \lambda \: \text{\textit{autovalor de} \textbf{T}}\}\ <\ 1
@@ -26,7 +26,10 @@ En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gaus
 \end{equation}
 
 \vspace{1em}
-\noindent donde $\mathbf{D}$ es la diagonal de $\mathbf{A}$, $\mathbf{L}$ contiene los elementos negados por debajo de la misma y $\mathbf{U}$ los elementos negados por encima. Luego, los esquemas para ambos métodos iterativos son los siguientes:
+\noindent donde $\mathbf{D}$ es la diagonal de $\mathbf{A}$, $\mathbf{L}$ contiene los elementos negados por debajo de la misma y $\mathbf{U}$ los elementos negados por encima. 
+
+\vspace{1em}
+\noindent Los esquemas para ambos métodos son los siguientes:
 
 \vspace{1em}
 \begin{center}
@@ -47,7 +50,7 @@ En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gaus
 \end{equation}
 
 \vspace{1em}
-Se puede demostrar que, de converger, ambos métodos lo harán a una solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
+Se puede demostrar que, de converger, ambos métodos lo harán a la solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
 
 
 
@@ -75,7 +78,7 @@ Definamos la siguiente aridad para una implementación posible del Método de Ja
 Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho(\mathbf{D}^{-1}(\mathbf{L} + \mathbf{U})) < 1$, entonces el método de Jacobi convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo:
 
 \vspace{1em}
-\lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Jacobi.}]{files/src/.code/jacobi.pseudo}
+\lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el \textit{Método de Jacobi}.}]{files/src/.code/jacobi.pseudo}
 
 \vspace{1em}
 Notamos que la complejidad del algoritmo es del orden de $\Theta(q * n^2)$ en el peor caso. En consecuencia, se debe precisar con cuidado la cantidad de iteraciones a realizar para que el factor $q$ sea despreciable. Del mismo modo, una selección de $t$ correcta, acorde al uso, puede resultar en mejoras considerables en la complejidad promedio. % Como se precisará más adelante, notamos en nuestra experimentación que para $n \leq 3000$ bastó de manera holgada $q = 100$ para lograr un error absoluto $L_1$ menor a $10^{-5}$.
@@ -100,23 +103,80 @@ De manera similar, definimos la siguiente función que implementa el Método de 
 Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, similar al anterior:
 
 \vspace{1em}
-\lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el Método de Gauss-Seidel.}]{files/src/.code/gauss_seidel.pseudo}
+\lstinputlisting[mathescape=true, escapechar=@, language=pseudo, label=algo_jacobi, caption={Pseudocódigo para el \textit{Método de Gauss-Seidel}.}]{files/src/.code/gauss_seidel.pseudo}
 
 \vspace{1em}
 \noindent Nuevamente, su complejidad temporal es $\Theta(q * n^2)$ en el peor caso.
 
 \vspace{1em}
-Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar a reducir su complejidad temporal. Por un lado, se utiliza un vector inicial aleatorio con norma $L_2 = 1$. Esto nos permite evitar aquellas entradas que causan un comportamiento de peor caso de manera determinística, a cuestas que una ejecución particular del algoritmo pueda resultar  menos eficiente de manera aleatoria. Por otro, se considera la norma $L_2$ entre dos soluciones consecutivas, como medida de similitud, para definir un quiebre temprano en la iteración externa de los algoritmos en función del parámetro $t$. 
+Observamos que ambos algoritmos aplican ciertas heurísticas que pueden ayudar a reducir su complejidad temporal. Por un lado, se utiliza un vector inicial aleatorio con norma $L_2 = 1$. Esto nos permite evitar aquellas entradas que causan un comportamiento de peor caso de manera determinística, a cuestas que una ejecución particular del algoritmo pueda resultar menos eficiente de manera aleatoria. Por el otro lado, se considera la norma $L_2$ entre dos soluciones consecutivas, como medida de similitud, para definir un quiebre temprano en la iteración externa de los algoritmos en función del parámetro $t$. 
 
 
 
 
 % gauss elim
 \vspace{2em}
-\subsubsection{Eliminación Gaussiana}
+\subsubsection{Eliminación Gaussiana y representación de matrices}
+
+Por último, para poder realizar una comparación entre los \textit{métodos iterativos} y los \textit{métodos exactos}, propondremos una representación de matriz adecuada y un algoritmo eficiente de \textit{eliminación gaussiana} con \textit{sustitución inversa} para la resolución de \textit{PageRank}.
+
+\vspace{1em}
+Dadas las cualidades ralas de las matrices asociadas al problema, decidimos trabajar con la siguiente representación: un vector de vectores \textit{sparse} de la librería \textit{Eigen}, que se implementa sobre un esquema CSR ---\textit{compressed row storage}--- para el indexado a memoria. En el apartado (\ref{representacion}.) explicamos en más detalle esta decisión.
+
+\vspace{1em}
+En tanto el algoritmo, proponemos el siguiente algoritmo de \textit{eliminación gaussiana}, que aprovecha las herramientas que brinda \textit{Eigen}:
+
+\vspace{1em}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo para la \textit{Eliminación Gaussiana}.}]{files/src/.code/eg2.pseudo}
+
+\vspace{1em}
+\noindent donde \textit{filas(A)} refiere a una función que retorna la cantidad de filas en una matriz, \textit{v.coeff(i)} refiere a un acceso al i-ésimo elemento del vector \textit{sparse} $v$ y \textit{v.pruned($\alpha$, $\varepsilon$)} refiere a un método para eliminar de $v$ a aquellos elementos menores en valor absoluto a $\alpha \times \varepsilon$.
+
+\vspace{1em}
+Notamos que la utilización de la función \textit{pruned} permite mantener una matriz esparsa a lo largo del proceso de eliminación a cuestas de una pérdida de presición en los resultados. Por ello, una buena selección de $\varepsilon$ es fundamental. 
+
+\vspace{1em}
+\noindent Para la \textit{sustitución inversa}, por su parte, proponemos el siguiente algoritmo.
+
+\vspace{1em}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo para \textit{Sustitución Inversa}.}]{files/src/.code/sinv.pseudo}
+
+\vspace{1em}
+\noindent donde \textit{iterador(v)} refiere a un iterador sobre los elementos no nulos del vector, y \textit{col(it)} refiere al índice de la columna a la que apunta un iterador.
 
 
 
 
-% rep matrices
-\subsubsection{Representación de matrices}
+\vspace{2em}
+\subsubsection{¿Por qué usamos \textit{vector$<$SparseVector$>$} como representación?}\label{representacion}
+
+\vspace{1em}
+Nuestra primer implementación `naive' de la \textit{Eliminación Gaussiana} con Eigen fue la siguiente:
+
+\vspace{1em}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo de la primer implementación de la Eliminación Gaussiana}]{files/src/.code/eg1.pseudo}
+
+\vspace{1em}
+A pesar de ser un código sencillo, creíamos que al usar las funciones de la librería y la representación \textit{SparseMatrix} podríamos obtener una ventaja en velocidad. Pero la hipótesis fue claramente refutada con los tiempos que obtuvimos: el test \textit{15\_segundos} demoró tres minutos y trece segundos.
+
+\vspace{1em}
+Observamos que la asignación de la línea 13 era una operación muy ineficiente. Esto tiene bastante sentido ya que \textit{SparseMatrix} está implementada usando \textit{CSR} y por ende todos los elementos se encuentran contiguos en un único vector. Insertar y editar un índice en el medio de éste es un proceso costoso.
+ 
+\vspace{1em}
+Concluimos de la observación anterior que, en caso de tener un \textit{vector$<$SparseVector$>$} ---donde podamos hacer reemplazos de una fila por otra considerablemente rápido---, además de seguir aprovechando las operaciones optimizadas que provee Eigen, podríamos acelerar considerablemente el algoritmo. Teniendo esto en mente, probamos la implementación detallada en el apartado anterior.
+
+\vspace{1em}
+Esta estrategia resultó considerablemente mejor, ya que ---en nuestras máquinas--- resuelve correctamente el test \textit{15\_segundos} en aproximadamente 2.5 segundos y el test \textit{30\_segundos} en 5\footnote{Un comentario necesario es que los tiempos mencionados fueron calculados usando $\varepsilon = 10^{-5}$. Esto es relevante ya que modificar esta variable cambia considerablemente la velocidad del algoritmo. Por ejemplo con $\varepsilon = 10^{-4}$ el algoritmo termina ambos tests en menos de un segundo, pero con $\varepsilon = 10^{-6}$, demora 4 segundos en el de 15 y 10 en el de 30. %No profundizaremos en como varía la velocidad respecto al $\varepsilon$.
+}.
+
+% \vspace{1em}
+% Otra optimización que consideramos fue implementar la resta realizada en la línea 9 del algoritmo. Usando los iteradores de Eigen y un vector auxiliar como se muestra en la siguiente figura.
+
+% \vspace{1em}
+% \lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Pseudocódigo de la segunda implementación de la Eliminación Gaussiana}]{files/src/.code/eg3.pseudo}
+
+% \vspace{1em}
+% Esta implementación es un poco más rápida ya que corre el test de 15 en 2 segundos y el de 30 en 4, pero no nos parecio una diferencia tal que justifique la pérdida de claridad en el código, por lo que decidimos dejar la implementación anterior.
+
+%\vspace{1em}
+%Cabe destacar que para el \textit{tp1} realizamos una implementación similar, usando un vector de vectores de \textit{pair} como representación. Sin embargo, esta resultó más lenta que la versión final usando \textit{Eigen}, probablemente se deba al manejo de memoria y la velocidad de los iteradores de la librería.

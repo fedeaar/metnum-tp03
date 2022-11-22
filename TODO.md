@@ -10,7 +10,7 @@ Implementacion:
 Expirementos:
 
 - [x] FEDE: graficar la convergencia para los casos de la cátedra con J y GS.
-- [ ] NAT: comparar tiempo de ejecución etre EG, J y GS.
+- [x] NAT: comparar tiempo de ejecución etre EG, J y GS.
 - [ ] BRI: analizar como varían los tiempos de ejecución a medida que la densidad de la matriz aumenta, para familias (algunos):
 	- red sumidero
 	- uno a todos
@@ -25,8 +25,8 @@ Informe:
 - [x] FEDE: resumen latex
 - [x] MANU: intro teorica latex
 - [x] MANU: escribir en latex implementacion GS y J
-- [] NAT: escribir en latex implementacion EG y rep. matrices
+- [x] NAT: escribir en latex implementacion EG y rep. matrices
 - [x] FEDE: escribir en latex sobre convergencia
-- [] NAT: escribir en latex sobre tiempo ejecución GS, J, EG.
+- [x] NAT: escribir en latex sobre tiempo ejecución GS, J, EG.
 - [] BRI: escribir en latex sobre tiempo de ejecución en función de la densidad.
 - [] escribir conclusion

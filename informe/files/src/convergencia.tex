@@ -1,8 +1,9 @@
+\vspace{2em}
 \subsection{Casos de test}
 
-% Evaluamos\footnote{El script asociada se puede encontrar en \textit{./experimentos/tiempo_ejecucion.py}, los archivos resultado en \textit{./experimentos/resultados/tiempo-de-ejecucion}} el error absoluto en norma $L_1$ de los resultados de nuestra implementación de PageRank sobre el \textit{método de Jacobi} y el \textit{método de Gauss-Seidel} para los casos no triviales de test provistos por la cátedra\footnote{Los mismos se pueden encontrar en \textit{./catedra/tests-pagerank}}, en función de la cantidad de iteraciones realizadas.
+Evaluamos\footnote{El script asociado se puede encontrar en \textit{./experimentos/convergencia.py}, los archivos resultado en \textit{./experimentos/resultados/convergencia-iterativos}} el error absoluto en norma $L_1$ de los resultados de nuestra implementación de \textit{PageRank} sobre el \textit{método de Jacobi} y el \textit{método de Gauss-Seidel} para los casos de test provistos por la cátedra\footnote{Los mismos se pueden encontrar en \textit{./catedra/tests-pagerank}}, en función de la cantidad de iteraciones realizadas.
 
-Notamos que las matrices asociadas a la resolución de \textit{PageRank} son estocásticas en columna, por lo que ambos métodos siempre convergerán a una solución\footnote{Damos una demostración informal de este hecho: se puede demostrar que los métodos propuestos convergen para matrices estrictamente diagonal dominantes. En consecuencia, las matrices de iteración asociadas deben tener radio espectral $<$ 1. Como las matrices estocásticas en columna son la traspuesta de las matrices estrictamente diagonal dominantes y los autovalores de una matriz equivalen a los de su traspuesta, entonces debe ser que las matrices de iteración asociadas a las matrices estocásticas en columna tienen radio espectral $<$ 1. Como además su diagonal es no nula, entonces satisfacen las condiciones de convergencia para los métodos iterativos mencionados.}. 
+Notamos que las matrices asociadas a la resolución de \textit{PageRank} son estocásticas en columna, por lo que ambos métodos siempre convergerán a una solución\footnote{se puede demostrar que los métodos propuestos convergen para matrices estrictamente diagonal dominantes, las matrices estocásticas en columna son de este tipo.}. 
 
 \vspace{2em}
 \noindent\textsc{Metodología}. Se evaluó el error absoluto $||x - pagerank(g,\ p)||_1$, donde $x$ refiere a la solución verdadera, $g$ refiere al grafo de entrada y $p$ al \textit{valor p}\footnote{Para una explicación en más detalle de PageRank, ver el $tp1$.}, para cada caso de test provisto, en función de la cantidad de iteraciones $q$ a realizar en el rango $[1, 100]$.
@@ -29,7 +30,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/convergencia_test_15_segundos.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{15\_segundos}, con $n = 2000$ y $p = 0.9$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_15_segundos}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{15\_segundos}, con $n = 2000$ y $p = 0.9$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_15_segundos}
 \end{figure}
 
 %\vspace{1em}
@@ -38,7 +39,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 10]{files/src/.media/convergencia_test_30_segundos.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{30\_segundos}, con $n = 3000$ y $p = 0.8$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_30_segundos}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{30\_segundos}, con $n = 3000$ y $p = 0.8$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_30_segundos}
 \end{figure}
 
 %\vspace{1em}
@@ -46,7 +47,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/convergencia_test_aleatorio_desordenado.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{aleatorio\_desordenado}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_aleatorio_desordenado}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{aleatorio\_desordenado}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_aleatorio_desordenado}
 \end{figure}
 
 %\vspace{1em}
@@ -54,7 +55,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_aleatorio.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{aleatorio}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_aleatorio}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{aleatorio}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_aleatorio}
 \end{figure}
 
 %\vspace{1em}
@@ -62,7 +63,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_completo.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{completo}, con $n = 5$ y $p = 0.5$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_completo}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{completo}, con $n = 5$ y $p = 0.5$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_completo}
 \end{figure}
 
 %\vspace{1em}
@@ -70,7 +71,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_sin_links.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{sin\_links}, con $n = 5$ y $p = 0.64$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_sin_links}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{sin\_links}, con $n = 5$ y $p = 0.64$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_sin_links}
 \end{figure}
 
 %\vspace{1em}
@@ -78,7 +79,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
     %\ContinuedFloat
     \centering
     \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_trivial.png}
-    \caption{Error absoluto $L_1$ para el grafo del test \textit{trivial}, con $n = 1$ y $p = 0.3$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de pagerank.} \label{test_trivial}
+    \caption{Error absoluto $L_1$ para el grafo del test \textit{trivial}, con $n = 1$ y $p = 0.3$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_trivial}
 \end{figure}
 
 \vspace*{1em}

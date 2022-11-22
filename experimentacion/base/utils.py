@@ -129,6 +129,35 @@ def graficar(x, y, hue, xaxis, yaxis, filename, units=None, log=False):
     plt.close(fig)
 
 
+def graficar_barra(x, y, hue, xaxis, yaxis, filename, units=None, log=False):
+   
+    plt.figure()
+    df   = pd.DataFrame({"x":x, "y":y, "hue":hue})
+    kwargs = {
+        "data":df, 
+        "x":"x", 
+        "y":"y", 
+        "hue":"hue", 
+        "units":units
+    }
+    if units:
+        kwargs["estimator"] = None
+    plot = sns.barplot(**kwargs)
+    
+
+    plot.set_xlabel(xaxis, fontsize=22, labelpad=10)
+    plot.set_ylabel(yaxis, fontsize=22, labelpad=10) 
+    plt.tick_params(axis='both', which='major', labelsize=18)
+    plt.legend(title=None)
+    if log:
+        plot.set_yscale('log')
+        
+    fig = plot.get_figure()
+    fig.subplots_adjust(bottom=0.15)
+    fig.savefig(filename)
+    plt.close(fig)
+
+
 def graficar2(x, y, hue, x2, y2, hue2, xaxis, yaxis, filename):
     
     plt.figure()

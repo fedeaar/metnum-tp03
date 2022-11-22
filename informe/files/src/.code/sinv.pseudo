@@ -1,0 +1,19 @@
+proc sustitucion_inversa(in A: vector<SparseVector>, 
+                         in b: vector) {
+                            
+    x = b   // vector solucion
+
+    for (i = filas(A) - 1; i >= 0; --i) {
+        
+        parcial = 0
+        for (iterador(A[i]); it; ++it) {
+            if (col(it) < i + 1) {
+                continue
+            }
+            parcial += it.coeff() * x[col(it)]
+        }
+        x[i] = (x[i] - parcial) / A[i].coeff(i)
+    }
+
+    return x
+}
