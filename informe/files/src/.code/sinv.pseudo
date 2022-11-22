@@ -7,10 +7,10 @@ proc sustitucion_inversa(in A: vector<SparseVector>,
         
         parcial = 0
         for (iterador(A[i]); it; ++it) {
-            if (col(it) < i + 1) {
+            if (pos(it) < i + 1) {
                 continue
             }
-            parcial += it.coeff() * x[col(it)]
+            parcial += it.coeff() * x[pos(it)]
         }
         x[i] = (x[i] - parcial) / A[i].coeff(i)
     }
