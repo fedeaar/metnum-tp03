@@ -8,7 +8,7 @@ Notamos que las matrices asociadas a la resolución de \textit{PageRank} son est
 \vspace{2em}
 \noindent\textsc{Metodología}. Se evaluó el error absoluto $||x - pagerank(g,\ p)||_1$, donde $x$ refiere a la solución verdadera, $g$ refiere al grafo de entrada y $p$ al \textit{valor p}\footnote{Para una explicación en más detalle de PageRank, ver el $tp1$.} utilizado, para cada caso de test provisto, en función de la cantidad de iteraciones $q$ a realizar en el rango $[1, 100]$.
 
-Se repitió el experimento para dos implementaciones del algoritmo que difieren unicamente en el método de resolución del sistema lineal asociado a $PageRank$. En la primera se utilizó el \textit{método de Jacobi} y en la segunda el \textit{método de Gauss-Seidel}. Se controló la tolerancia ($t = 0$) para forzar a los algoritmos a iterar de manera exacta. 
+Se repitió el experimento para dos implementaciones del algoritmo que difieren únicamente en el método de resolución del sistema lineal asociado a $PageRank$. En la primera se utilizó el \textit{método de Jacobi} y en la segunda el \textit{método de Gauss-Seidel}. Se controló la tolerancia ($t = 0$) para forzar a los algoritmos a iterar de manera exacta. 
 
 \vspace{2em}
 \noindent\textsc{Resultados}. Las figuras (\ref{test_15_segundos}.) a (\ref{test_trivial}.) muestran los resultados del error absoluto $L_1$ para cada caso de test.
@@ -17,68 +17,68 @@ Se repitió el experimento para dos implementaciones del algoritmo que difieren 
 Notamos que la implementación de \textit{PageRank} sobre el \textit{método de Gauss-Seidel} tuvo una velocidad de convergencia mayor a la que logró la implementación sobre el \textit{método de Jacobi}. 
 
 \vspace{1em}
-Además, para éste primer método, bastó $q < 60$ para lograr un error absoluto $L_1$ menor a $10^{-6}$ para todos los casos de test. En cambio, el \textit{método de Jacobi} requirió  en un sólo caso más iteraciones para alcanzar la misma meta: el test \textit{15\_segundos}. En particular, para este caso y el test \textit{30\_segundos}, notamos que la cantidad de iteraciones requeridas para converger no parece depender de manera estricta del tamaño de la matriz, pero sí parece existir una correlación.
+Además, para este primer método, bastó $q < 60$ para lograr un error absoluto $L_1$ menor a $10^{-6}$ para todos los casos de test. En cambio, el \textit{método de Jacobi} requirió en un sólo caso más iteraciones para alcanzar la misma meta: el test \textit{15\_segundos}. En particular, para este caso y el test \textit{30\_segundos}, notamos que la cantidad de iteraciones requeridas para converger no parece depender de manera estricta del tamaño de la matriz, pero sí parece existir una correlación.
 
 \vspace{1em}
 Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$ debe corresponder a un error de redondeo entre las soluciones esperadas y las computadas durante el experimento. Sin embargo, observamos que esta meseta no ocurre, en particular, para el test \textit{completo}.
 
 \vspace{1em}
-Dadas las limitaciones de esta evaluación ---por la escasa cantidad de casos de test---, poco se puede decir respecto al corportamiento general de ambos métodos. Como futura hipótesis a investigar, un estudio más detallado podría evaluar la velocidad de convergencia en función de otros parámetros, como el tamaño de la matriz, la densidad o el valor $p$ utilizado. 
+Dadas las limitaciones de esta evaluación ---por la escasa cantidad de casos de test---, poco se puede decir respecto al comportamiento general de ambos métodos. Como futura hipótesis a investigar, un estudio más detallado podría evaluar la velocidad de convergencia en función de otros parámetros, como el tamaño de la matriz, la densidad o el valor $p$ utilizado. 
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/convergencia_test_15_segundos.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_15_segundos.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{15\_segundos}, con $n = 2000$ y $p = 0.9$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank} (escala logarítmica).} \label{test_15_segundos}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \newpage
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth, trim=0 0 0 10]{files/src/.media/convergencia_test_30_segundos.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_30_segundos.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{30\_segundos}, con $n = 3000$ y $p = 0.8$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank} (escala logarítmica).} \label{test_30_segundos}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/convergencia_test_aleatorio_desordenado.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_aleatorio_desordenado.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{desordenado}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank} (escala logarítmica).} \label{test_aleatorio_desordenado}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_aleatorio.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_aleatorio.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{aleatorio}, con $n = 5$ y $p = 0.76$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank} (escala logarítmica).} \label{test_aleatorio}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_completo.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_completo.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{completo}, con $n = 5$ y $p = 0.5$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank} (escala logarítmica).} \label{test_completo}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_sin_links.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_sin_links.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{sin\_links}, con $n = 5$ y $p = 0.64$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_sin_links}
 \end{figure}
 
-%\vspace{1em}
+\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
-    \includegraphics[width=1\textwidth]{files/src/.media/convergencia_test_trivial.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/convergencia_test_trivial.png}
     \caption{Error absoluto $L_1$ para el grafo del test \textit{trivial}, con $n = 1$ y $p = 0.3$, en función de la cantidad de iteraciones realizadas, para ambas implementaciones de \textit{PageRank}.} \label{test_trivial}
 \end{figure}
 
