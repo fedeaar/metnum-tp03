@@ -50,7 +50,7 @@ En este informe, trabajaremos con los métodos de \textit{Jacobi} y \textit{Gaus
 \end{equation}
 
 \vspace{1em}
-Se puede demostrar que, de converger, ambos métodos lo harán a la solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
+Se puede demostrar que, de converger, ambos métodos lo harán a la solución del sistema pedido. Requerimos adicionalmente, para su aplicación, que $\mathbf{A}$ sea una matriz sin elementos nulos en la diagonal. De lo contrario, no se podrán calcular las inversas de $\mathbf{D}$ y $\mathbf{D} - \mathbf{L}$.
 
 
 
@@ -97,7 +97,7 @@ De manera similar, definimos la siguiente función que implementa el Método de 
 \end{align*}
 
 \vspace{1em}
-\noindent donde, nuevamente, $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y  $t \geq 0$  representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
+\noindent donde, nuevamente, $n$ es un natural, \textbf{A} es una matriz con elementos distintos a cero en la diagonal, \textit{q} es un número que indica la cantidad máxima de iteraciones a realizar y $t \geq 0$  representa la tolerancia mínima a partir de la que se considera la convergencia de una solución.
 
 \vspace{1em}
 Si la matriz $\mathbf{A} = \mathbf{D} - \mathbf{L} - \mathbf{U}$, satisface que $\rho((\mathbf{D} - \mathbf{L})^{-1}(\mathbf{U})) < 1$, entonces el método de Gauss-Seidel convergerá a una solución del sistema $\mathbf{A}x = b$. Proponemos el siguiente algoritmo, similar al anterior:
@@ -133,7 +133,7 @@ En tanto su implementación, proponemos los siguientes algoritmos para \textit{e
 \noindent donde \textit{filas}(\textbf{A}) refiere a una función que retorna la cantidad de filas en la matriz \textbf{A}, \textit{v.coeff(i)} refiere a un acceso al $i$-ésimo elemento del vector $v$ y \textit{v.pruned($\alpha$, $\varepsilon$)} es una función que reemplaza los elementos explícitos en la memoria del vector $v$ con valor absoluto menor a $\alpha \cdot \varepsilon$ con un cero implícito.
 
 \vspace{1em}
-Notamos que la utilización de la función \textit{pruned} permite mantener una matriz esparsa a lo largo del proceso de eliminación a cuestas de una pérdida de presición en los resultados. Por ello, una buena selección de $\varepsilon$ es fundamental para el buen funcionamiento del algoritmo. 
+Notamos que la utilización de la función \textit{pruned} permite mantener una matriz esparsa a lo largo del proceso de eliminación a cuestas de una pérdida de precisión en los resultados. Por ello, una buena selección de $\varepsilon$ es fundamental para el buen funcionamiento del algoritmo. 
 
 \vspace{1em}
 \noindent %Para la \textit{sustitución inversa}, por su parte, proponemos el siguiente código:
@@ -151,21 +151,21 @@ El algoritmo (\ref{sinv}.), por su parte, utiliza las funciones \textit{iterador
 \subsubsection{¿Por qué usamos \textit{vector$<$SparseVector$>$} como representación?}\label{representacion}
 
 \vspace{1em}
-Nuestra primer implementación `naive' de la \textit{Eliminación Gaussiana} con Eigen fue la siguiente:
+Nuestra primera implementación `naive' de la \textit{Eliminación Gaussiana} con Eigen fue la siguiente:
 
 \vspace{1em}
-\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Código C++ de la primer implementación de \textit{Eliminación Gaussiana}.}]{files/src/.code/eg1.pseudo}
+\lstinputlisting[mathescape=true, language=pseudo, label=e, caption={Código C++ de la primera implementación de \textit{Eliminación Gaussiana}.}]{files/src/.code/eg1.pseudo}
 
 \vspace{1em}
 A pesar de ser un código sencillo, creíamos que al usar las funciones de la librería y la representación \textit{SparseMatrix} podríamos obtener una ventaja en velocidad. Pero la hipótesis fue claramente refutada con los tiempos que obtuvimos: el test \textit{15\_segundos}, por su cuenta, demoró tres minutos y trece segundos en ejecutar en una de nuestras máquinas.
 
 \vspace{1em}
-Observamos que la asignación de la línea 13 es una operación muy ineficiente. Esto tiene bastante sentido ya que \textit{SparseMatrix} está implementada usando \textit{CSR} y por ende todos los elementos se encuentran contiguos en un único vector. Insertar y editar un índice en el medio de éste es un proceso costoso.
+Observamos que la asignación de la línea 13 es una operación muy ineficiente. Esto tiene bastante sentido, ya que \textit{SparseMatrix} está implementada usando \textit{CSR} y por ende todos los elementos se encuentran contiguos en un único vector. Insertar y editar un índice en el medio de éste es un proceso costoso.
  
 \vspace{1em}
 Concluimos de la observación anterior que, en caso de tener un \textit{vector$<$SparseVector$>$} ---donde podamos hacer reemplazos de una fila por otra considerablemente rápido---, además de seguir aprovechando las operaciones optimizadas que provee \textit{Eigen}, podríamos acelerar considerablemente el algoritmo. Teniendo esto en mente, probamos la implementación detallada en el apartado anterior.
 
-Esta estrategia resultó considerablemente mejor, ya que ---en nuestras máquinas--- resuelve correctamente el test \textit{15\_segundos} en aproximadamente 2.5 segundos y el test \textit{30\_segundos} en 5\footnote{Un comentario necesario es que los tiempos mencionados fueron calculados usando $\varepsilon = 10^{-5}$. Esto es relevante ya que modificar esta variable cambia considerablemente la velocidad del algoritmo. Por ejemplo con $\varepsilon = 10^{-4}$ el algoritmo termina ambos tests en menos de un segundo, pero con $\varepsilon = 10^{-6}$, demora 3 segundos en el de 15 y 8 en el de 30. No profundizaremos en cómo varía la velocidad respecto a $\varepsilon$.
+Esta estrategia resultó considerablemente mejor, ya que ---en nuestras máquinas--- resuelve correctamente el test \textit{15\_segundos} en aproximadamente 2.5 segundos y el test \textit{30\_segundos} en 5\footnote{Un comentario necesario es que los tiempos mencionados fueron calculados usando $\varepsilon = 10^{-5}$. Esto es relevante ya que modificar esta variable cambia considerablemente la velocidad del algoritmo. Por ejemplo, con $\varepsilon = 10^{-4}$ el algoritmo termina ambos tests en menos de un segundo, pero con $\varepsilon = 10^{-6}$, demora 3 segundos en el de 15 y 8 en el de 30. No profundizaremos en cómo varía la velocidad respecto a $\varepsilon$.
 }.
 
 % \vspace{1em}
