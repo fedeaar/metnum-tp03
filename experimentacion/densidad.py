@@ -205,7 +205,7 @@ def error_relativo(filename, p, x):
 
 if __name__ == "__main__":
 
-	densidades = [ int(d * TAM) for d in DENSIDADES ]
+	densidades = [ int(d * TAM * (TAM - 1)) for d in DENSIDADES ]
 
 
 	for test in TESTS:
