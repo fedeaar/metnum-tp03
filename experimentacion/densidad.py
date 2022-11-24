@@ -140,34 +140,45 @@ def medir_tiempos(test, tam, dens):
 def generar_test(tipo, tam, dens, rep):
 	out = f"{tam}"
 
-	match (tipo):
-		case "red_sumidero":
-			out += f"\n{dens}"
-			js = random.sample(range(1, tam+1), dens)
-			for i in range(0, dens):
-				out += f"\n{js[i]} {js[0]}"
-		case "uno_a_todos":
-			out += f"\n{dens}"
-			js = random.sample(range(1, tam+1), dens)
-			for i in range(0, dens):
-				out += f"\n{js[0]} {js[i]}"
-		case "viborita":
-			out += f"\n{dens}"
-			js = random.sample(range(1, tam+1), dens)
-			for i in range(1, dens):
-				out += f"\n{js[i-1]} {js[i]}"
-		case "todo_con_todo":
-			n = int(0.5 * (1 + np.sqrt(1 + 4*dens)))	# aprox. la cant. de nodos para que haya 'dens' aristas
-			out += f"\n{n*(n-1)}"				# cant. real de aristas
-			js = random.sample(range(1, tam+1), n)
-			for i in range(0, n):
-				for j in range(0, n):
-					if i != j: out += f"\n{js[i]} {js[j]}"
-		case "aleatorio":
-			out += f"\n{dens}"
-			tups = random.sample(list(product(range(1, tam), range(1, tam))), dens)
-			for i in range(dens):
-				out += f"\n{tups[i][0]} {tups[i][1]}"
+	if tipo == "red_sumidero":
+		n = int(dens*tam)
+		out += f"\n{n}"
+		js = random.sample(range(1, tam+1), n)
+		for i in range(0, n):
+			out += f"\n{js[i]} {js[0]}"
+	elif tipo == "uno_a_todos":
+		n = int(dens*tam)
+		out += f"\n{n}"
+		js = random.sample(range(1, tam+1), n)
+		for i in range(0, n):
+			out += f"\n{js[0]} {js[i]}"
+	elif tipo == "viborita":
+		n = int(dens*tam)
+		out += f"\n{n}"
+		js = random.sample(range(1, tam+1), n)
+		for i in range(1, n):
+			out += f"\n{js[i-1]} {js[i]}"
+	elif tipo == "todo_con_todo":
+		#n = int(0.5 * (1 + np.sqrt(1 + 4*dens)))	# aprox. la cant. de nodos para que haya 'dens' aristas
+		n = int(dens * tam * (tam - 1))					
+		js = random.sample(range(1, tam+1), tam)
+		ady = ""
+		for i in range(0, tam):
+			if total >= n: 
+				break
+			for j in range(0, i, -1):
+				if i != j:
+					ady += f"\n{js[i]} {js[j]}"
+					ady += f"\n{js[j]} {js[i]}"
+					total += 2
+		out += f"\n{total}" + ady
+
+	elif tipo == "aleatorio":
+		n = int(dens * tam * (tam - 1))
+		out += f"\n{n}"
+		tups = random.sample(list(product(range(1, tam+1), range(1, tam+1))), n)
+		for i in range(n):
+			out += f"\n{tups[i][0]} {tups[i][1]}"
 
 	open(f"{DIR_IN}{tipo}_{tam}_{dens}_{rep}.txt", "w").write(out)
 
@@ -205,13 +216,13 @@ def error_relativo(filename, p, x):
 
 if __name__ == "__main__":
 
-	densidades = [ int(d * TAM * (TAM - 1)) for d in DENSIDADES ]
+	# densidades = [ int(d * TAM) for d in DENSIDADES ]
 
 
 	for test in TESTS:
 		IO.createCSV(DIR + f"densidad_{test}.csv", COLS)
 
-		for dens in densidades:
+		for dens in DENSIDADES:
 			
 			for rep in range(REPS):
 				generar_test(test, TAM, dens, rep)
@@ -224,10 +235,10 @@ if __name__ == "__main__":
 		df = pd.read_csv(DIR + f"densidad_{test}.csv")
 		df.describe().to_csv(DIR + f"densidad_{test}_sumario.csv")
 
-		x = (df.dens / TAM) * 100
+		x = df.dens / TAM
 		y = df.tiempo / 1e3
 		hue = df.metodo.replace({
 			"GS":"Gauss-Seidel", 
 			"J": "Jacobi", 
 			"EG": "Eliminación Gaussiana"})
-		utils.graficar(x, y, hue, "densidad (%)", "tiempo (ms)", DIR + f"densidad_{test}.png", log=True)
+		utils.graficar(x, y, hue, "densidad", "tiempo (ms)", DIR + f"densidad_{test}.png", log=True)
