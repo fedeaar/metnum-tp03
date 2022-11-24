@@ -72,7 +72,7 @@ def correr_pagerank(test, rep):
 	p = 0.5
 
 	print("- Calculando error EG...")
-	IO.run_linux(filename=in_file, p_val=p, m='EG', tol=TOL_EG, 
+	IO.run(filename=in_file, p_val=p, m='EG', tol=TOL_EG, 
 		o=DIR_OUT, save_as=f"{test}_EG")
 
 	_, res_eg = IO.read_out(DIR_OUT + f"{test}_EG" + ".out")
@@ -85,11 +85,11 @@ def correr_pagerank(test, rep):
 	tol_j  = find_correct_tol(test, error_eg, 'J', p)
 
 	print("- Corriendo iteración:", str(rep+1) + '/' + str(REPS))
-	IO.run_linux(filename=in_file, p_val=p, m='EG', tol=TOL_EG, 
+	IO.run(filename=in_file, p_val=p, m='EG', tol=TOL_EG, 
 	o=DIR_OUT, save_as=f"{test}_EG_{rep}", time=True)
-	IO.run_linux(filename=in_file, p_val=p, m='GS', tol=tol_gs, niter=ITER,
+	IO.run(filename=in_file, p_val=p, m='GS', tol=tol_gs, niter=ITER,
 	o=DIR_OUT, save_as=f"{test}_GS_{rep}", time=True)
-	IO.run_linux(filename=in_file, p_val=p, m='J',  tol=tol_j, niter=ITER,
+	IO.run(filename=in_file, p_val=p, m='J',  tol=tol_j, niter=ITER,
 	o=DIR_OUT, save_as=f"{test}_J_{rep}",  time=True)
 
 
@@ -101,7 +101,7 @@ def find_correct_tol(test, error_eg, metodo, p):
 	while tol_i < tol_j :
 		tol_k = (tol_i + tol_j) / 2
 
-		IO.run_linux(filename=in_file, p_val=p, m=metodo, tol=tol_k, 
+		IO.run(filename=in_file, p_val=p, m=metodo, tol=tol_k, 
 			o=DIR_OUT, save_as=f"{test}_{metodo}")
 
 		_, res_metodo = IO.read_out(DIR_OUT + f"{test}_{metodo}" + ".out")
