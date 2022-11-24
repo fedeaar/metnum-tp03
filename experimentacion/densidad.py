@@ -176,9 +176,14 @@ def generar_test(tipo, tam, dens, rep):
 	elif tipo == "aleatorio":
 		n = int(dens * tam * (tam - 1))
 		out += f"\n{n}"
-		tups = random.sample(list(product(range(1, tam+1), range(1, tam+1))), n)
-		for i in range(n):
-			out += f"\n{tups[i][0]} {tups[i][1]}"
+		tups = random.sample(list(product(range(1, tam+1), range(1, tam+1))), tam * tam)
+		total = 0
+		i = 0
+		while total < n and i < tam * tam:
+			if tups[i][0] != tups[i][1]:
+				out += f"\n{tups[i][0]} {tups[i][1]}"
+				total += 1
+			i += 1
 
 	open(f"{DIR_IN}{tipo}_{tam}_{dens}_{rep}.txt", "w").write(out)
 
