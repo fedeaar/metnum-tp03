@@ -115,22 +115,3 @@ def run(filename, p_val,
     if time: call_params.extend(["-time"])
 
     sub.run(call_params)
-
-def run_linux(filename, p_val, 
-        m="EG", tol=1e-4, niter=1e5, o="./", p=15, save_as=None, time=False, verbose=False,
-        exe_path=EXE_PATH):
-
-    call_params = [
-        exe_path, 
-        filename, str(p_val),
-        "-m", m,
-        "-tol", str(tol),
-        "-iter", str(niter),
-        "-o", o,
-        "-p", str(p)
-    ]
-    if save_as: call_params.extend(["-as", save_as])
-    if verbose: call_params.extend(["-v"])
-    if time: call_params.extend(["-time"])
-
-    sub.run(call_params)
