@@ -77,7 +77,7 @@ Dado un $n$ grande podemos prever una descripción ejemplar de cada categoría b
 
 En concordancia con la sección anterior, evaluamos la implementación de \textit{Eliminación Gaussiana} de \textit{PageRank} con $\varepsilon = 10^{-6}$ y repetimos el proceso de búsqueda binaria, en base al error relativo $||\mathbf{A}x - x||_1$\footnote{Notamos que esta medida es válida ya que \textit{PageRank} equivale al cálculo del autovector asociado al autovalor en módulo máximo, $|\lambda| = 1$, de \textbf{A}. Para más detalle ver el $tp1$ y $tp2$.}, ---donde \textbf{A} es la matriz asociada al sistema lineal de \textit{PageRank} y $x$ es la solución obtenida---. %para obtener un valor de tolerancia a utilizar en las implementaciones de \textit{Gauss-Seidel} y \textit{Jacobi} que permita obtener un resultado comparable en error al que provee la \textit{Eliminación Gaussiana}.
 
-Se utilizó $n = 1000$ y se iteró por cada $d$ y por cada familia de grafos. En cada caso, y para cada implementación, se obtuvieron los parámetros correctos y se midió el tiempo de ejecución de la etapa de resolución del sistema lineal asociado. Se repitió el experimento diez veces para capturar su variabilidad. Además, se controló el \textit{valor p} ($p = 0.5$).
+Se utilizó $n = 100$ para los conjuntos de grafos \textit{completos} y \textit{aleatorios} y $n = 1000$ para los demás. Esta decisión se tomó para reducir la varianza de los resultados, ya que la estructura de estas primeras familias lleva a una cantidad de conexiones máxima de $n \times (n - 1)$, mientras que para las segundas, a una de no más de $n$ aristas\footnote{Esto se debe a las limitaciones en la cantidad de conexiones que pueden surgir en cada tipo de familia.}.  Se iteró por cada $d$ y por cada familia de grafos. En cada caso, y para cada implementación, se obtuvieron los parámetros correctos y se midió el tiempo de ejecución de la etapa de resolución del sistema lineal asociado. Se repitió el experimento diez veces para capturar su variabilidad. Además, se controló el \textit{valor p} ($p = 0.5$).
 
 \vspace{1.5em}
 \noindent\textsc{Resultados}. A simple vista, confirmamos la conclusión de la sección previa: los métodos iterativos son considerablemente más rápidos que la \textit{eliminación gaussiana}.
@@ -88,35 +88,45 @@ el tiempo de ejecución crece en proporción a la densidad del grafo. Los tres m
 Este comportamiento se refleja también en el resto de las figuras, si bien pierden esta nitidez.
 Es decir, la precedencia ---en tiempo de ejecución--- de cada método se mantiene en general, pero no siempre es tan clara como en el caso de los grafos aleatorios.
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.9\textwidth, trim=0 0 0 30]{files/src/.media/densidad_aleatorio.png}
-    \caption{\textbf{Aleatorio}. Tiempo de ejecución para el conjunto \textit{aleatorio} de grafos, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
-    \label{densidad_aleatorio}
-\end{figure}
-
 \vspace{1em}
 Las redes \textit{sumidero} (figura \ref{densidad_red_sumidero}.) y los grafos \textit{estrella} (figura \ref{densidad_uno_a_todos}.), en particular,
 muestran tiempos de ejecución muy similares para los métodos de \textit{Jacobi} y \textit{Gauss-Seidel}.
 %En ambos, el crecimiento de la densidad afecta en gran parte a la \textit{eliminación gaussiana}, pero sólo levemente a los métodos iterativos.
 
 También, cabe destacar la variación inesperada para matrices particularmente ralas, como podemos notar en las redes \textit{sumidero} y \textit{viborita} (figura \ref{densidad_viborita}.).
-Por el otro lado, para grafos \textit{completos} (figura \ref{densidad_todo_con_todo}.), la distinción es clara: \textit{Gauss-Seidel} es el más rápido, siempre.
+Por el otro lado, para grafos \textit{completos} (figura \ref{densidad_todo_con_todo}.), la distinción es clara: \textit{Gauss-Seidel} es el más rápido. No obstante, notamos un comportamiento inusual para las matrices con $n \times (n - 1)$ conexiones (todas las posibles), donde el método de \textit{Jacobi} lo supera.
+
+\vspace{1em}
+Lo que se puede concluir de estos resultados es la pertinencia de la estructura del grafo que se está analizando.
+El comportamiento temporal de los métodos propuestos es muy dependiente de la misma, de tal manera que
+producir una estimación de la eficiencia de \textit{PageRank} podría requerir un estudio puntual sobre ella.
+Sin embargo, destacamos el predominio del \textit{método de Gauss-Seidel} sobre los otros dos, en la mayoría de los casos.
+%Donde, incluso si no es el más rápido, exhibe poca desventaja sobre el resto.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.9\textwidth, trim=0 30 0 30]{files/src/.media/densidad_red_sumidero.png}
+    \includegraphics[width=.9\textwidth]{files/src/.media/densidad_aleatorio.png}
+    \caption{\textbf{Aleatorio}. Tiempo de ejecución para el conjunto \textit{aleatorio} de grafos, con $n = 100$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_aleatorio}
+\end{figure}
+
+\vspace{1em}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.9\textwidth]{files/src/.media/densidad_todo_con_todo.png}
+    \caption{\textbf{Completo}. Tiempo de ejecución para el conjunto de grafos que conecta cada nodo con todos los demás, con $n = 100$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_todo_con_todo}
+\end{figure}
+
+\vspace{1em}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.9\textwidth]{files/src/.media/densidad_red_sumidero.png}
     \caption{\textbf{Sumidero}. Tiempo de ejecución para el conjunto de redes \textit{sumidero}, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_red_sumidero}
 \end{figure}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.9\textwidth, trim=0 30 0 30]{files/src/.media/densidad_todo_con_todo.png}
-    \caption{\textbf{Completo}. Tiempo de ejecución para el conjunto de grafos que conecta cada nodo con todos los demás, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
-    \label{densidad_todo_con_todo}
-\end{figure}
-
+\vspace{1em}
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.9\textwidth]{files/src/.media/densidad_uno_a_todos.png}
@@ -124,6 +134,7 @@ Por el otro lado, para grafos \textit{completos} (figura \ref{densidad_todo_con_
     \label{densidad_uno_a_todos}
 \end{figure}
 
+\vspace{1em}
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.9\textwidth]{files/src/.media/densidad_viborita.png}
@@ -131,10 +142,4 @@ Por el otro lado, para grafos \textit{completos} (figura \ref{densidad_todo_con_
     \label{densidad_viborita}
 \end{figure}
 
-\vspace{1em}
-Lo que se puede concluir de estos resultados es la pertinencia de la estructura del grafo que se está analizando.
-El comportamiento temporal de los métodos propuestos es muy dependiente de la misma, de tal manera que
-producir una estimación de la eficiencia de \textit{PageRank} podría requerir un estudio puntual al grafo de entrada.
-No obstante, destacamos, como regla de oro, el predominio del \textit{método de Gauss-Seidel} sobre los otros dos.
-Donde, incluso si no es el más rápido, exhibe poca desventaja sobre el resto.
-
+.
