@@ -163,14 +163,14 @@ def generar_test(tipo, tam, dens, rep):
 		n = int(dens * tam * (tam - 1))					
 		js = random.sample(range(1, tam+1), tam)
 		ady = ""
+		total = 0
 		for i in range(0, tam):
 			if total >= n: 
 				break
-			for j in range(0, i, -1):
-				if i != j:
-					ady += f"\n{js[i]} {js[j]}"
-					ady += f"\n{js[j]} {js[i]}"
-					total += 2
+			for j in range(0, i):
+				ady += f"\n{js[i]} {js[j]}"
+				ady += f"\n{js[j]} {js[i]}"
+				total += 2
 		out += f"\n{total}" + ady
 
 	elif tipo == "aleatorio":

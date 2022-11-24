@@ -34,6 +34,10 @@ Así también, los scripts se pensaron para ser ejecutados por medio de WSL. De 
 
 Para este procedimiento se asume que trabajaremos en bash. Desde la raiz del repo procederemos de la siguiente forma:
 
+0. descargamos eigen y lo situamos en la carpeta de [dependencia](implementacion/dependencies/)
+    > $ cd implementacion/dependencies/
+    > $ git clone https://gitlab.com/libeigen/eigen/-/releases/3.4.0
+
 1. creamos la carpeta para los ejecutables
     > $ mkdir build
     
