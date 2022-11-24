@@ -40,7 +40,7 @@ Para este procedimiento se asume que trabajaremos en bash. Desde la raiz del rep
 2. nos movemos adentro
     > $ cd build
 
-3. creamos el cmake
+3. creamos el cmake (esta etapa puede tardar)
     > $ cmake ../implementacion
 
 4. creamos el ejecutable principal (el mismo se requerirá para los experimentos)

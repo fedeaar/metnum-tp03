@@ -8,16 +8,16 @@ Notamos que las matrices asociadas a la resolución de \textit{PageRank} son est
 \vspace{2em}
 \noindent\textsc{Metodología}. Se evaluó el error absoluto $||x - pagerank(g,\ p)||_1$, donde $x$ refiere a la solución verdadera, $g$ refiere al grafo de entrada y $p$ al \textit{valor p}\footnote{Para una explicación en más detalle de PageRank, ver el $tp1$.} utilizado, para cada caso de test provisto, en función de la cantidad de iteraciones $q$ a realizar en el rango $[1, 100]$.
 
-Se repitió el experimento para dos implementaciones del algoritmo que difieren únicamente en el método de resolución del sistema lineal asociado a $PageRank$. En la primera se utilizó el \textit{método de Jacobi} y en la segunda el \textit{método de Gauss-Seidel}. Se controló la tolerancia ($t = 0$) para forzar a los algoritmos a iterar de manera exacta. 
+Se realizó el experimento diez veces para dos implementaciones del algoritmo que difieren únicamente en el método de resolución del sistema lineal asociado a $PageRank$. En la primera se utilizó el \textit{método de Jacobi} y en la segunda el \textit{método de Gauss-Seidel}. Se controló la tolerancia ($t = 0$) para forzar a los algoritmos a iterar de manera exacta. 
 
 \vspace{2em}
-\noindent\textsc{Resultados}. Las figuras (\ref{test_15_segundos}.) a (\ref{test_trivial}.) muestran los resultados del error absoluto $L_1$ para cada caso de test.
+\noindent\textsc{Resultados}. Las figuras (\ref{test_15_segundos}.) a (\ref{test_trivial}.) muestran los resultados del error absoluto $L_1$ para cada caso de test. 
 
 \vspace{1em}
-Notamos que la implementación de \textit{PageRank} sobre el \textit{método de Gauss-Seidel} tuvo una velocidad de convergencia mayor a la que logró la implementación sobre el \textit{método de Jacobi}. 
+Notamos que la implementación de \textit{PageRank} sobre el \textit{método de Gauss-Seidel} tuvo una velocidad de convergencia mayor a la que logró la implementación sobre el \textit{método de Jacobi}.
 
 \vspace{1em}
-Además, para este primer método, bastó $q < 60$ para lograr un error absoluto $L_1$ menor a $10^{-6}$ para todos los casos de test. En cambio, el \textit{método de Jacobi} requirió en un sólo caso más iteraciones para alcanzar la misma meta: el test \textit{15\_segundos}. En particular, para este caso y el test \textit{30\_segundos}, notamos que la cantidad de iteraciones requeridas para converger no parece depender de manera estricta del tamaño de la matriz, pero sí parece existir una correlación.
+Además, para este primer método, bastó $q < 60$ para lograr un error absoluto $L_1$ menor a $10^{-6}$ para todos los casos de test. En cambio, el \textit{método de Jacobi} requirió en un sólo caso más iteraciones para alcanzar la misma meta: el test \textit{15\_segundos}. Notamos también que para esta cantidad de iteraciones, la desviación estándar entre las distintas corridas del experimento fue menor a $8.29 \times 10^{-5}$. En particular, para los tests \textit{15\_segundos} y \textit{30\_segundos}, notamos que la cantidad de iteraciones requeridas para converger no parece depender de manera estricta del tamaño de la matriz, pero sí parece existir una correlación. 
 
 \vspace{1em}
 Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$ debe corresponder a un error de redondeo entre las soluciones esperadas y las computadas durante el experimento. Sin embargo, observamos que esta meseta no ocurre, en particular, para el test \textit{completo}.
@@ -25,7 +25,7 @@ Consideramos, también, que la meseta de error observado por debajo de $10^{-6}$
 \vspace{1em}
 Dadas las limitaciones de esta evaluación ---por la escasa cantidad de casos de test---, poco se puede decir respecto al comportamiento general de ambos métodos. Como futura hipótesis a investigar, un estudio más detallado podría evaluar la velocidad de convergencia en función de otros parámetros, como el tamaño de la matriz, la densidad o el valor $p$ utilizado. 
 
-\vspace{1em}
+%\vspace{1em}
 \begin{figure}[!htbp]
     %\ContinuedFloat
     \centering
@@ -83,7 +83,7 @@ Dadas las limitaciones de esta evaluación ---por la escasa cantidad de casos de
 \end{figure}
 
 \vspace*{1em}
-Procedemos a mostrar los resultados finales para el error absoluto con norma $L_1$ y $L_{\infty}$ ---para hacer una comparación por coordenadas---, tras las cien iteraciones:
+Procedemos a mostrar el promedio de los resultados finales para el error absoluto con norma $L_1$ y $L_{\infty}$ ---para hacer una comparación por coordenadas---, tras las cien iteraciones:
 
 \vspace{1em}
 \begin{figure}[!htbp]
@@ -95,8 +95,8 @@ Procedemos a mostrar los resultados finales para el error absoluto con norma $L_
         \hline
         15\_segundos            & $1.45 \times 10^{-6}$  & $9.76 \times 10^{-9}$  & $6.4 \times 10^{-7}$  & $5 \times 10^{-9}$ \\
         30\_segundos            & $7.54 \times 10^{-7}$  & $5 \times 10^{-10}$  & $7.54 \times 10^{-7}$  & $5 \times 10^{-10}$ \\
-        aleatorio\_desordenado   & $6.18 \times 10^{-6}$  & $2.52 \times 10^{-7}$  & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$ \\
-        aleatorio               & $6.18 \times 10^{-6}$  & $2.52 \times 10^{-7}$  & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$ \\
+        aleatorio               & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$  & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$ \\
+        aleatorio\_desordenado   & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$  & $6.18 \times 10^{-7}$  & $2.52 \times 10^{-7}$ \\
         completo                & $0$  & $0$  & $0$  & $0$ \\
         sin\_links              & $0$  & $0$  & $0$  & $0$ \\
         trivial                 & $0$  & $0$  & $0$  & $0$ \\
