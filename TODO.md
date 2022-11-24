@@ -29,4 +29,4 @@ Informe:
 - [x] FEDE: escribir en latex sobre convergencia
 - [x] NAT: escribir en latex sobre tiempo ejecución GS, J, EG.
 - [x] BRI: escribir en latex sobre tiempo de ejecución en función de la densidad.
-- [ ] escribir conclusion
+- [x] escribir conclusion
