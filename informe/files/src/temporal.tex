@@ -10,7 +10,7 @@ A partir de este resultado realizamos una búsqueda de la tolerancia ideal, para
 
 %De este modo se espera realizar una comparación de tiempo de ejecución justa, donde todos los métodos obtengan una respuesta comparable en términos del error cometido.
 
-Dados estos parámeteros, se procedió a calcular \textit{PageRank} para cada test, sobre cada implementación y medir el tiempo de ejecución de la etapa de resolución del sistema lineal asociado\footnote{Sobre esta medición importan dos aclaraciones: 1. se omitió el tiempo de construcción del sistema lineal asociado ---de orden $\Theta(n^2)$--- para poder enfocar en los algoritmos bajo estudio. 2. la medición se realizó dentro del mismo ejecutable de \textit{PageRank} para evitar el ruido que podría ocasionar medirlo de manera externa. Es decir, por medio de una llamada a un subproceso.}. Repetimos este paso diez veces para atenuar las fluctuaciones de tiempo\footnote{Para evitar disparidades sobre los resultados de este experimento, y el subsiguiente, aclaramos que estos se ejecutaron en una misma computadora.}. 
+Dados estos parámetros, se procedió a calcular \textit{PageRank} para cada test, sobre cada implementación y medir el tiempo de ejecución de la etapa de resolución del sistema lineal asociado\footnote{Sobre esta medición importan dos aclaraciones: 1. se omitió el tiempo de construcción del sistema lineal asociado ---de orden $\Theta(n^2)$--- para poder enfocar en los algoritmos bajo estudio. 2. la medición se realizó dentro del mismo ejecutable de \textit{PageRank} para evitar el ruido que podría ocasionar medirlo de manera externa. Es decir, por medio de una llamada a un subproceso.}. Repetimos este paso diez veces para atenuar las fluctuaciones de tiempo\footnote{Para evitar disparidades sobre los resultados de este experimento, y el subsiguiente, aclaramos que estos se ejecutaron en una misma computadora.}. 
 
 \vspace{1.5em}
 \noindent \textsc{Resultados}. Procedemos a detallar los resultados en la Figura (\ref{tiempo_ej}.). 
@@ -24,7 +24,7 @@ Dados estos parámeteros, se procedió a calcular \textit{PageRank} para cada te
 
 
 \vspace{1em}
-Como se puede apreciar en el gráfico, el \textit{método de Gauss-Seidel} y el \textit{método de Jacobi} son considerablemente más rápidos cuando el tamaño de la matriz es grande. Para el test \textit{30\_segundos}, estos métodos tardaron alrededor de dos milisegundos, mientras que la \textit{eliminación gaussiana} tardó mas de diez segundos. Sin embargo, cuando el tamaño de la matriz es chico, notamos que la \textit{eliminación gaussiana} es más rápida. 
+Como se puede apreciar en el gráfico, el \textit{método de Gauss-Seidel} y el \textit{método de Jacobi} son considerablemente más rápidos cuando el tamaño de la matriz es grande. Para el test \textit{30\_segundos}, estos métodos tardaron alrededor de dos milisegundos, mientras que la \textit{eliminación gaussiana} tardó más de diez segundos. Sin embargo, cuando el tamaño de la matriz es chico, notamos que la \textit{eliminación gaussiana} es más rápida. 
 
 \vspace{1em}
 Por su parte, los métodos iterativos tienen una velocidad muy similar. El \textit{método de Gauss-Seidel} fue apenas más rápido que el \textit{método de Jacobi} en todos los casos evaluados.
