@@ -34,3 +34,95 @@ Por su parte, los métodos iterativos tienen una velocidad muy similar. El \text
 % DENSIDADES
 \vspace{2em}
 \subsection{En función de la densidad del grafo de entrada}
+
+Más allá de los tests de la cátedra se debe evaluar el comportamiento de los métodos propuestos en función de sistemas alternativos.
+Podriamos esperar que el rendimiento de nuesta solución varie con el comportamiento inherente a cada grafo. 
+Para poner esto en práctica vamos a generar un conjunto de distintas entradas y analizar su comportamiento en virtud a su densidad.
+Es decir, dado ciertas familias de grafos (ver figura \ref{familias}), producimos instancias aleatorias donde podemos variar la proporción entre su cantidad de aristas (links) y nodos.
+Buscamos obtener una mejor idea de como se comportan nuestros algoritmos.
+
+\begin{figure}[h]
+    \centering
+    \subfloat[Aleatorio]{\includegraphics[width=0.3\textwidth]{files/src/.media/familia_aleatorio.png}}
+    \subfloat[Red sumidero]{\includegraphics[width=0.3\textwidth]{files/src/.media/familia_red_sumidero.png}}
+    \subfloat[Todo con todo]{\includegraphics[width=0.3\textwidth]{files/src/.media/familia_todo_con_todo.png}}
+    \newline
+    \subfloat[Uno a todos]{\includegraphics[width=0.3\textwidth]{files/src/.media/familia_uno_con_todo.png}}
+    \subfloat[Viborita]{\includegraphics[width=0.3\textwidth]{files/src/.media/familia_viborita.png}}
+    \caption{Ejemplos de las familias de grafos generadas para el análisis de densidad.}
+    \label{familias}
+\end{figure}
+
+\noindent\textsc{Metodología}.
+En seguimiento de la sección anterior, atentamos a reconstruir la misma metodología.
+Para cada familia de grafos generamos 7 instancias aleatorias, con densidad creciente $d \in \{0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1\}$.
+Estas muestras son aleatorias en vista de que los $N$ nodos que participan de dicha construcción se seleccionan al azar.
+Dado un $N$ grande podemos prever una descripción ejemplar de cada categoría. %exceptuando casos extraordinarios donde el arreglo de valores en la matriz de entrada sea especial.
+Para \textit{PageRank} usamos nuevamente la tolerancia $\varepsilon = 10^{-6}$.
+En búsqueda de una tolerancia justa para los otros dos métodos, desarrollamos el binary-search haciendo uso del error relativo $||Ax - x||_1$,
+para el resultado $x$ de cada recursión. 
+
+Con $N = 3000$, se itera por cada $d$ y por cada familia de grafos. En cada caso, experimentamos con cada uno de los tres métodos, 10 veces cada uno.
+De estas 1050 muestas construimos los resultados. 
+
+\vspace{2em}
+\noindent\textsc{Resultados}.
+
+A simple vista, confirmamos la conclusión de la sección previa: los métodos iterativos son considerablemente más rápidos que la eliminación gaussiana.
+
+El caso de las redes aleatorias (figura \ref{densidad_aleatorio}) pone en manifiesto el comportamiento generalmente esperado: 
+el tiempo de ejecución crece en proporción a la densidad del grafo.
+Los tres métodos mantienen prolijamente su eficiencia relativa.
+Este comportamiento se refleja también en el resto de las figuras, si bien pierden esta misma nitidez.
+Es decir, la precedencia de cada método se mantiene en general, pero no siempre es tan clara como en el caso de los grafos aleatorios.
+La red sumidero (figura \ref{densidad_red_sumidero}) y el grafo de "uno a todos" (figura \ref{densidad_uno_a_todos}), en particular,
+demuestran tiempos de ejecución muy similares para \emph{Jacobi} y \emph{Gauss-Seidel}.
+En ambos, el crecimiento de la densidad afecta en gran parte a la \emph{eliminación gaussiana}, pero solo levemente a los métodos iterativos.
+También, cabe destacar la variación inesperada para matrices particularmente ralas, como podemos notar en la red sumidero y viborita (\ref{densidad_viborita}).
+Por el otro lado, para un grafo completamente conectado (figura \ref{densidad_todo_con_todo}), la distinción es clara; Gauss-Seidel es el más rápido, siempre.
+
+Lo que se puede concluir de estos resultados es la pertinencia de la estructura del grafo que se está analizando.
+El comportamiento temporal de los métodos propuestos es muy dependiente de esta, de tal manera que
+producir una estimación de su eficiencia podría requerir un estudio puntual al caso.
+No obstante destacamos, como regla de oro, el predominio del método de Gauss-Seidel sobre los otros dos.
+Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_aleatorio.png}
+    \textbf{Aleatorio}\par
+    \caption{Tiempo de ejecución para el conjunto aleatorio de grafos, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_aleatorio}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_red_sumidero.png}
+    \textbf{Red sumidero}\par
+    \caption{Tiempo de ejecución para el conjunto de redes sumidero, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_red_sumidero}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_todo_con_todo.png}
+    \textbf{Todo con todo}\par
+    \caption{Tiempo de ejecución para el conjunto de grafos que conecta cada nodo con todos los demas, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_todo_con_todo}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_uno_a_todos.png}
+    \textbf{Uno a todos}\par
+    \caption{Tiempo de ejecución para el conjunto de grafos que conecta un nodo con todos los demas, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_uno_a_todos}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_viborita.png}
+    \textbf{Viborita}\par
+    \caption{Tiempo de ejecución para el conjunto de redes "viborita", con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \label{densidad_viborita}
+\end{figure}
