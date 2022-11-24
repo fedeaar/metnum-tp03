@@ -108,14 +108,13 @@ def graficar(x, y, hue, xaxis, yaxis, filename, units=None, log=False):
         "data":df, 
         "x":"x", 
         "y":"y", 
-        "hue":"hue", 
-        "units":units
+        "hue":"hue"
     }
     if units:
         kwargs["estimator"] = None
+        kwargs["units"] = units
     plot = sns.lineplot(**kwargs)
     
-
     plot.set_xlabel(xaxis, fontsize=22, labelpad=10)
     plot.set_ylabel(yaxis, fontsize=22, labelpad=10) 
     plt.tick_params(axis='both', which='major', labelsize=18)

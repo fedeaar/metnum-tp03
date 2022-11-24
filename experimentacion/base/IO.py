@@ -100,8 +100,7 @@ def run(filename, p_val,
         m="EG", tol=1e-4, niter=1e5, o="./", p=15, save_as=None, time=False, verbose=False,
         exe_path=EXE_PATH):
 
-    call_params = [
-        "wsl" if WSL else "",   
+    call_params = [  
         exe_path, 
         filename, str(p_val),
         "-m", m,
@@ -110,8 +109,9 @@ def run(filename, p_val,
         "-o", o,
         "-p", str(p)
     ]
+    if WSL: call_params.insert(0, "wsl")
     if save_as: call_params.extend(["-as", save_as])
     if verbose: call_params.extend(["-v"])
     if time: call_params.extend(["-time"])
 
-    sub.check_call(call_params)
+    sub.run(call_params)
