@@ -62,7 +62,7 @@ Para \textit{PageRank} usamos nuevamente la tolerancia $\varepsilon = 10^{-6}$.
 En búsqueda de una tolerancia justa para los otros dos métodos, desarrollamos el binary-search haciendo uso del error relativo $||Ax - x||_1$,
 para el resultado $x$ de cada recursión. 
 
-Con $N = 3000$, se itera por cada $d$ y por cada familia de grafos. En cada caso, experimentamos con cada uno de los tres métodos, 10 veces cada uno.
+Con $N = 1000$, se itera por cada $d$ y por cada familia de grafos. En cada caso, experimentamos con cada uno de los tres métodos, generando 10 instancias de grafos distintos.
 De estas 1050 muestas construimos los resultados. 
 
 \vspace{2em}
@@ -91,7 +91,7 @@ Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_aleatorio.png}
     \textbf{Aleatorio}\par
-    \caption{Tiempo de ejecución para el conjunto aleatorio de grafos, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \caption{Tiempo de ejecución para el conjunto aleatorio de grafos, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_aleatorio}
 \end{figure}
 
@@ -99,7 +99,7 @@ Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_red_sumidero.png}
     \textbf{Red sumidero}\par
-    \caption{Tiempo de ejecución para el conjunto de redes sumidero, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \caption{Tiempo de ejecución para el conjunto de redes sumidero, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_red_sumidero}
 \end{figure}
 
@@ -107,7 +107,7 @@ Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_todo_con_todo.png}
     \textbf{Todo con todo}\par
-    \caption{Tiempo de ejecución para el conjunto de grafos que conecta cada nodo con todos los demas, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \caption{Tiempo de ejecución para el conjunto de grafos que conecta cada nodo con todos los demas, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_todo_con_todo}
 \end{figure}
 
@@ -115,7 +115,7 @@ Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_uno_a_todos.png}
     \textbf{Uno a todos}\par
-    \caption{Tiempo de ejecución para el conjunto de grafos que conecta un nodo con todos los demas, con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \caption{Tiempo de ejecución para el conjunto de grafos que conecta un nodo con todos los demas, con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_uno_a_todos}
 \end{figure}
 
@@ -123,6 +123,6 @@ Donde, incluso si no el más rápido, exhibe poca desventaja sobre el resto.
     \centering
     \includegraphics[width=1\textwidth, trim=0 0 0 30]{files/src/.media/densidad_viborita.png}
     \textbf{Viborita}\par
-    \caption{Tiempo de ejecución para el conjunto de redes "viborita", con $n = 3000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
+    \caption{Tiempo de ejecución para el conjunto de redes "viborita", con $n = 1000$ y $p = 0.5$, en función de la densidad de conexiones, para cada implementación de \textit{PageRank}.}
     \label{densidad_viborita}
 \end{figure}
