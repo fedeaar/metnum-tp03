@@ -14,7 +14,11 @@ import pandas as pd
 """
 descripcion: 
 	Similar a 'tiempo_ejecucion.py'.
-	Genera matrices de cierta familia y evalua tiempo de ejecución en proporción a su densidad.
+	Genera matrices de cierta familia y evalua el tiempo de ejecución en proporción 
+	a su densidad.
+
+	Nota: correr el experimento regenera todos los archivos. Esto puede resultar 
+    en pequeñas discrepancias con los resultados provistos.
 """
 
 
@@ -22,7 +26,6 @@ descripcion:
 #
 # IO
 #
-
 
 EXPERIMENTO = "densidad"
 DIR_IN, DIR_OUT, DIR = IO.createInOut(EXPERIMENTO, delete=True)
@@ -47,14 +50,12 @@ TAM = 100
 DENSIDADES = [0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1]
 
 TESTS = [
-	#"red_sumidero",
-	#"uno_a_todos",
-	#"viborita",
+	"red_sumidero",
+	"uno_a_todos",
+	"viborita",
 	"todo_con_todo",
 	"aleatorio"
 ]
-
-
 
 
 #
@@ -144,20 +145,22 @@ def generar_test(tipo, tam, dens, rep):
 		js = random.sample(range(1, tam+1), n)
 		for i in range(0, n):
 			out += f"\n{js[i]} {js[0]}"
+
 	elif tipo == "uno_a_todos":
 		n = int(dens*tam)
 		out += f"\n{n}"
 		js = random.sample(range(1, tam+1), n)
 		for i in range(0, n):
 			out += f"\n{js[0]} {js[i]}"
+
 	elif tipo == "viborita":
 		n = int(dens*tam)
 		out += f"\n{n}"
 		js = random.sample(range(1, tam+1), n)
 		for i in range(1, n):
 			out += f"\n{js[i-1]} {js[i]}"
+
 	elif tipo == "todo_con_todo":
-		#n = int(0.5 * (1 + np.sqrt(1 + 4*dens)))	# aprox. la cant. de nodos para que haya 'dens' aristas
 		n = int(dens * tam * (tam - 1))					
 		js = random.sample(range(1, tam+1), tam)
 		ady = ""
@@ -210,8 +213,6 @@ def error_relativo(filename, p, x):
 
 	return error_rel
 	
-
-
 
 #
 # MAIN
