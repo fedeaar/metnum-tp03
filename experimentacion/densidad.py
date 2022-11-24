@@ -4,7 +4,6 @@ import base.IO as IO
 import base.utils as utils
 
 import random
-import sys
 from itertools import product
 
 import numpy as np
@@ -20,7 +19,6 @@ descripcion:
 	Nota: correr el experimento regenera todos los archivos. Esto puede resultar 
     en pequeñas discrepancias con los resultados provistos.
 """
-
 
 
 #
@@ -46,7 +44,7 @@ METODOS = ['GS', 'J','EG']
 STEP    = 1
 ITER    = 1e8
 
-TAM = 100
+TAM = 1000
 DENSIDADES = [0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1]
 
 TESTS = [
@@ -232,11 +230,10 @@ if __name__ == "__main__":
 
 			medir_tiempos(test, TAM, dens)
 
-
 		df = pd.read_csv(DIR + f"densidad_{test}.csv")
 		df.describe().to_csv(DIR + f"densidad_{test}_sumario.csv")
 
-		x = df.dens / TAM
+		x = df.dens
 		y = df.tiempo / 1e3
 		hue = df.metodo.replace({
 			"GS":"Gauss-Seidel", 
