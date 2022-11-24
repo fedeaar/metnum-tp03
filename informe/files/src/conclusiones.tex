@@ -1,0 +1,11 @@
+A lo largo de este trabajo hemos evaluado distintos métodos para la resolución de sistemas lineales. Particularmente, nos concentramos en la aplicación de la \textit{eliminación gaussiana} y de los métodos de \textit{Gauss-Seidel} y \textit{Jacobi} en el contexto del algoritmo de \textit{PageRank}. 
+
+Con el objetivo de medir sus velocidades de ejecución, planteamos una serie de experimentos que nos permitieron estudiar el comportamiento de las distintas implementaciones sobre una gran variedad de familias de grafos: redes aleatorias, de sumidero, completas, estrella y viborita. Esto lo realizamos en función de la densidad de las conexiones, sobre el total de los nodos, para cada entrada.
+
+Además, medimos la velocidad de convergencia en función de la cantidad de iteraciones realizadas y la velocidad de ejecución de una serie de casos de test selectos.
+
+\vspace{1em}
+Observamos que los métodos iterativos son significativamente más rápidos que la eliminación gaussiana. A modos prácticos, operan en un orden de complejidad temporal menor, si bien la cantidad de iteraciones $q$ puede resultar significativa. Lo que es más, entre ambos métodos iterativos notamos que el método de \textit{Gauss-Seidel} se ejecutó ---en términos generales--- con mayor velocidad que el método de \textit{Jacobi}. Consideramos que esto se debe a que, dentro de una misma iteración, el primer algoritmo considera datos más recientes que el segundo.
+
+\vspace{1em}
+Si bien ambos métodos están restringidos en su aplicación ---la \textit{eliminación gaussiana} funciona solo para matrices con factorización \textit{LU} y los métodos iterativos sólo sobre el conjunto de matrices para los que convergen---, de tener la posiblidad de elección, los algoritmos de \textit{Gauss-Seidel} y \textit{Jacobi} prueban ser más eficientes a la hora de resolver sistemas lineales.
