@@ -23,11 +23,9 @@ descripcion:
 # IO
 #
 
-DIR = "./resultados/densidad/"
-DIR_IN = DIR + "in/"
-DIR_OUT = DIR + "out/"
 
 EXPERIMENTO = "densidad"
+DIR_IN, DIR_OUT, DIR = IO.createInOut(EXPERIMENTO, delete=True)
 
 COLS        = 'familia,rep,tam,dens,metodo,tiempo'
 FMT_COLS    = "{0},{1},{2},{3},{4},{5}\n"
@@ -45,13 +43,13 @@ METODOS = ['GS', 'J','EG']
 STEP    = 1
 ITER    = 1e8
 
-TAM = 1000
+TAM = 100
 DENSIDADES = [0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1]
 
 TESTS = [
-	"red_sumidero",
-	"uno_a_todos",
-	"viborita",
+	#"red_sumidero",
+	#"uno_a_todos",
+	#"viborita",
 	"todo_con_todo",
 	"aleatorio"
 ]
@@ -79,10 +77,10 @@ def correr_pagerank(test, rep):
 	error_eg = error_relativo(in_file, p, res_eg)
 
 	print("- Buscando tolerancia GS...")
-	tol_gs = find_correct_tol(test, error_eg, 'GS', p)
+	tol_gs = find_correct_tol(test + f"_{rep}", error_eg, 'GS', p)
 
 	print("- Buscando tolerancia J...")
-	tol_j  = find_correct_tol(test, error_eg, 'J', p)
+	tol_j  = find_correct_tol(test + f"_{rep}", error_eg, 'J', p)
 
 	print("- Corriendo iteración:", str(rep+1) + '/' + str(REPS))
 	IO.run(filename=in_file, p_val=p, m='EG', tol=TOL_EG, 
@@ -220,9 +218,6 @@ def error_relativo(filename, p, x):
 #
 
 if __name__ == "__main__":
-
-	# densidades = [ int(d * TAM) for d in DENSIDADES ]
-
 
 	for test in TESTS:
 		IO.createCSV(DIR + f"densidad_{test}.csv", COLS)
