@@ -86,7 +86,6 @@ def correr_pagerank():
                 o=DIR_OUT, save_as=f"{test}_J_{rep}",  time=True)
 
 
-
 def findCorrectTol(test, error_eg, metodo):
 
     in_file = TESTS_DIR + test + ".txt"
