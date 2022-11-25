@@ -23,7 +23,7 @@ protected:
     double epsilon, epsilon_res;
     size_t iter;
     void SetUp() override {
-        basedir = "../../catedra/tests-pagerank/";
+        basedir = "../catedra/tests-pagerank/";
         epsilon = 9e-6;
         epsilon_res = 1e-4;
         iter = 1e5;
