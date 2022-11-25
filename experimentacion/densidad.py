@@ -26,7 +26,7 @@ descripcion:
 #
 
 EXPERIMENTO = "densidad"
-DIR_IN, DIR_OUT, DIR = IO.createInOut(EXPERIMENTO, delete=True)
+DIR_IN, DIR_OUT, DIR = IO.createInOut(EXPERIMENTO, delete=False)
 
 COLS        = 'familia,rep,tam,dens,metodo,tiempo'
 FMT_COLS    = "{0},{1},{2},{3},{4},{5}\n"
@@ -50,9 +50,9 @@ DENSIDADES = [0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1]
 TESTS = [
 	"red_sumidero",
 	"uno_a_todos",
-	"viborita",
-	"todo_con_todo",
-	"aleatorio"
+	#"viborita",
+	#"todo_con_todo",
+	#"aleatorio"
 ]
 
 
