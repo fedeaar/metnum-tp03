@@ -141,14 +141,14 @@ def generar_test(tipo, tam, dens, rep):
 		n = int(dens*tam)
 		out += f"\n{n}"
 		js = random.sample(range(1, tam+1), n)
-		for i in range(0, n):
+		for i in range(1, n):
 			out += f"\n{js[i]} {js[0]}"
 
 	elif tipo == "uno_a_todos":
 		n = int(dens*tam)
 		out += f"\n{n}"
 		js = random.sample(range(1, tam+1), n)
-		for i in range(0, n):
+		for i in range(1, n):
 			out += f"\n{js[0]} {js[i]}"
 
 	elif tipo == "viborita":
