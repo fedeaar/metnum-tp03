@@ -9,7 +9,7 @@ grupo 18 - Arienti, Vekselman, Lakowsky, Kovo
 
 El repositorio cuenta con los siguientes archivos y carpetas:
 
-- 'catedra' -  Los archivos fuente ys casos de test provistos por la cátedra.
+- 'catedra' -  Los archivos fuente y casos de test provistos por la cátedra.
 
 - 'implementacion' - El código fuente para la solución propuesta.
 
@@ -69,7 +69,7 @@ El ejecutable permite trabajar con los siguientes parámetros.
 
 Obligatorios (deben estar en orden):
 
-- `*` (string): fuente del archivo de entrada. El mismo debe contener una lista de adjacencia (delimitada por ' ') con el siguiente encabezado: la cantidad de vértices (línea uno) y la cantidad de aristas (línea dos). Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
+- `*` (string): fuente del archivo de entrada. El mismo debe contener una lista de adyacencia (delimitada por ' ') con el siguiente encabezado: la cantidad de vértices (línea uno) y la cantidad de aristas (línea dos). Ejemplo de uso: `../catedra/tests-pagerank/test_aleatorio.txt`.
 
 - `*` [0, 1): valor p.
 
